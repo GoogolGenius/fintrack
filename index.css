@@ -1,0 +1,59 @@
+html {
+    font-family: inter, Helvetica, sans-serif;
+    
+}
+.fullPage{
+    background-image: radial-gradient(rgb(0, 98, 255), rgb(0, 128, 255), rgb(153, 207, 255), white);
+    width: 100%;
+    height:1000px;
+}
+a {
+    text-decoration: underline;
+}
+.header {
+    margin-top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around; 
+    width: 100%;
+    height: fit-content;
+}
+.headerElement {
+    font-size: 2em;
+    margin: 0px 0px; 
+    width: fit-content;
+    color: rgb(0, 31, 116); 
+}
+
+h1{
+    margin-top: 100px;
+    font-size: 6em;
+    text-align: center;
+}
+h2{
+    text-align: center;
+    font-size: 3em;
+
+}
+.getStarted{
+    font-size: 2.5em;
+    background-color: aliceblue;
+    
+    border-radius: 100px;
+    padding: 25px;
+    background-image: linear-gradient(to right, blue, rgb(0, 68, 255));
+    color:white;
+    width:fit-content;
+    margin-left: auto;
+    margin-right: auto;
+
+
+}
+.getStarted:hover{
+    cursor:pointer;
+}
+.highlight{
+    background: -webkit-linear-gradient(#ffa200, #ffbb00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
