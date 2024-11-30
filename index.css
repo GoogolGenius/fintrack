@@ -16,18 +16,18 @@ body {
     overflow-wrap:anywhere;
     margin-top: 0px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: right; 
     width: 100%;
     height: fit-content;
 }
 .headerElement {
-
     font-size: 2em;
     margin: 0px 30px; 
     float:right;
-
     width: fit-content;
+    white-space: nowrap;
     color: rgb(0, 31, 116); 
 }
 
