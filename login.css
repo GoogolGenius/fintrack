@@ -14,7 +14,7 @@ body {
     background-size: 400% 400%;
     width: 30%; 
     padding: 25px; 
-    height: 60%; 
+    height: fit-content; 
     border-radius: 10px; 
     box-shadow: 0 0 20px black; 
 } 
