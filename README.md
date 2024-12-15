@@ -1,8 +1,14 @@
 # Financial Web App
-Our financial web application built using HTML, CSS, JavaScript, React, and Firebase for the FBLA Coding & Programming event.
+
+A financial web application built using HTML, CSS, JavaScript, React, and Firebase for the FBLA Coding & Programming event.
+Developed by Abhay S., Erich N., and Richard W. from Linn-Mar High School.
+
 ## Features
+
 - Easily access transaction history.
 - Financial calculations and data visualization.
 - Sleek, fast design.
-## Getting Started 
+
+## Getting Started
+
 - Simply create an account.

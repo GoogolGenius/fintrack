@@ -1,33 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="nav.css">
-    <link rel="stylesheet" href="history.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <title>Transaction History</title>
-</head>
-<body>
-    <div class="nav">
-        <a href="summary.html"><img src="Images/graph.png" class="navElement"></a>
-        <a href="home.html"><img src="Images/house.png" class="navElement" ></a>  
-        <a href="history.html"><img src="Images/clock.png" class="navElement" id ="selected"></a>
-    </div>
-    <div class="content">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="nav.css" />
+        <link rel="stylesheet" href="history.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet"
+        />
+        <title>Transaction History</title>
+    </head>
+    <body>
+        <div class="nav">
+            <a href="summary.html"
+                ><img src="Images/graph.png" class="navElement"
+            /></a>
+            <a href="home.html"
+                ><img src="Images/house.png" class="navElement"
+            /></a>
+            <a href="history.html"
+                ><img src="Images/clock.png" class="navElement" id="selected"
+            /></a>
+        </div>
         <div class="content">
-            <div class="search-container">
-                <input type="text" id="search-bar" placeholder="Search for transactions">
-            </div>
-            <div class="sort-container">
-                <span>Sort By:</span>
-                <button class="sort-button">Alphabetically</button> 
-                <button class="sort-button">Recency</button>
-                <button class="sort-button">Value</button>
+            <div class="content">
+                <div class="search-container">
+                    <input
+                        type="text"
+                        id="search-bar"
+                        placeholder="Search for transactions"
+                    />
+                </div>
+                <div class="sort-container">
+                    <span>Sort By:</span>
+                    <button class="sort-button">Alphabetically</button>
+                    <button class="sort-button">Recency</button>
+                    <button class="sort-button">Value</button>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

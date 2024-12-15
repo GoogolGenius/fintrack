@@ -1,41 +1,42 @@
-
 html {
-    padding: 0;
-    margin: 0;
     background: radial-gradient(white, rgb(0, 106, 255));
+    margin: 0;
+    padding: 0;
 }
 
 .nav {
-    width: 100%;
+    background: linear-gradient(to right, #6699cc, #66ccff, #99ccff);
     display: flex;
     justify-content: center;
-    background: linear-gradient(to right, #6699CC, #66CCFF, #99CCFF); 
-    padding: 0; 
+    padding: 0;
+    width: 100%;
 }
 
 .navElement {
     height: 50px;
-    padding: 10px 25px;
     margin-left: 5%;
     margin-right: 5%;
+    padding: 10px 25px;
     transition: filter 0.3s ease, background-color 0.3s ease;
 }
 
 .navElement:hover {
+    background-color: rgba(102, 122, 255, 0.519);
     cursor: pointer;
-    background-color: rgba(102, 122, 255, 0.519); 
-    filter: brightness(1.2) contrast(1.1); 
+    filter: brightness(1.2) contrast(1.1);
 }
 
 #selected {
     filter: sepia(100%) hue-rotate(190deg) saturate(500%);
 }
-.content{
-    width: 70%;
-    margin: 0 auto;
+.content {
     background-color: #e9edf6;
     height: 1000px;
+    margin: 0 auto;
+    width: 70%;
 }
 @media (max-width: 600px) {
-    .content { width: 100%; } 
+    .content {
+        width: 100%;
+    }
 }

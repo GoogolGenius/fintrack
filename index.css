@@ -6,61 +6,104 @@ body {
     padding: 0;
 }
 
-.fullPage{
-    background-image: radial-gradient(circle at 85% 1%, hsla(190,0%,93%,0.05) 0%, hsla(190,0%,93%,0.05) 96%,transparent 96%, transparent 100%),radial-gradient(circle at 14% 15%, hsla(190,0%,93%,0.05) 0%, hsla(190,0%,93%,0.05) 1%,transparent 1%, transparent 100%),radial-gradient(circle at 60% 90%, hsla(190,0%,93%,0.05) 0%, hsla(190,0%,93%,0.05) 20%,transparent 20%, transparent 100%),radial-gradient(circle at 79% 7%, hsla(190,0%,93%,0.05) 0%, hsla(190,0%,93%,0.05) 78%,transparent 78%, transparent 100%),radial-gradient(circle at 55% 65%, hsla(190,0%,93%,0.05) 0%, hsla(190,0%,93%,0.05) 52%,transparent 52%, transparent 100%),linear-gradient(135deg, rgb(37, 56, 222),rgb(96, 189, 244));
+.fullPage {
+    background-image: radial-gradient(
+            circle at 85% 1%,
+            hsla(190, 0%, 93%, 0.05) 0%,
+            hsla(190, 0%, 93%, 0.05) 96%,
+            transparent 96%,
+            transparent 100%
+        ),
+        radial-gradient(
+            circle at 14% 15%,
+            hsla(190, 0%, 93%, 0.05) 0%,
+            hsla(190, 0%, 93%, 0.05) 1%,
+            transparent 1%,
+            transparent 100%
+        ),
+        radial-gradient(
+            circle at 60% 90%,
+            hsla(190, 0%, 93%, 0.05) 0%,
+            hsla(190, 0%, 93%, 0.05) 20%,
+            transparent 20%,
+            transparent 100%
+        ),
+        radial-gradient(
+            circle at 79% 7%,
+            hsla(190, 0%, 93%, 0.05) 0%,
+            hsla(190, 0%, 93%, 0.05) 78%,
+            transparent 78%,
+            transparent 100%
+        ),
+        radial-gradient(
+            circle at 55% 65%,
+            hsla(190, 0%, 93%, 0.05) 0%,
+            hsla(190, 0%, 93%, 0.05) 52%,
+            transparent 52%,
+            transparent 100%
+        ),
+        linear-gradient(135deg, rgb(37, 56, 222), rgb(96, 189, 244));
+    height: 1000px;
     width: 100%;
-    height:1000px;
 }
 
 .header {
-    overflow-wrap:anywhere;
-    margin-top: 0px;
+    align-items: center;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: right; 
-    width: 100%;
     height: fit-content;
+    justify-content: right;
+    margin-top: 0px;
+    overflow-wrap: anywhere;
+    width: 100%;
 }
 .headerElement {
+    color: rgb(0, 31, 116);
+    float: right;
     font-size: 2em;
-    margin: 0px 30px; 
-    float:right;
-    width: fit-content;
+    margin: 0px 30px;
     white-space: nowrap;
-    color: rgb(0, 31, 116); 
-}
-
-h1{
-    margin-top: 100px;
-    font-size: 6em;
-    text-align: center;
-}
-h2{
-    text-align: center;
-    font-size: 3em;
-
-}
-.getStarted {
-    font-size: 2.5em;
-    text-decoration: none;
-    box-shadow: 0 0 20px #ff9100;
-    border-radius: 100px;
-    padding: 25px;
-    background-image: linear-gradient(to right, #FF512F 0%, #F09819 51%, #FF512F 100%);
-    color: white;
     width: fit-content;
+}
+
+h1 {
+    font-size: 6em;
+    margin-top: 100px;
+    text-align: center;
+}
+h2 {
+    font-size: 3em;
+    text-align: center;
+}
+
+.getStartedAnchor {
+    text-decoration: none;
+}
+
+.getStarted {
+    background-image: linear-gradient(
+        to right,
+        #ff512f 0%,
+        #f09819 51%,
+        #ff512f 100%
+    );
+    border-radius: 100px;
+    box-shadow: 0 0 20px #ff9100;
+    color: white;
+    font-size: 2.5em;
     margin-left: auto;
     margin-right: auto;
+    padding: 25px;
+    text-decoration: none;
+    width: fit-content;
 }
 .getStarted:hover {
     cursor: pointer;
 }
 
-.highlight{
+.highlight {
     background: -webkit-linear-gradient(#ffa200, #ffbb00);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
