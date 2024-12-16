@@ -7,6 +7,7 @@ Developed by Abhay S., Erich N., and Richard W. from Linn-Mar High School.
 
 - Easily access transaction history.
 - Financial calculations and data visualization.
+- char.js to createteh data visualization
 - Sleek, fast design.
 
 ## Getting Started
