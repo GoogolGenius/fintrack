@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="nav.css" />
+        <link rel="stylesheet" href="home.css" />
         <title>Home</title>
     </head>
     <body>
@@ -17,8 +18,21 @@
             <a href="history.html"
                 ><img src="assets/clock.png" class="navElement"
             /></a>
-            <button class="firebaseSignOut" onclick="signOut()">Sign Out</button>
+            <button class="firebaseSignOut navElement" onclick="signOut()">Sign Out</button>
         </div>
+        <div class="homeContent">
+            <h1>Dashboard</h1>
+            <div class="card">
+                <h2>Current Balance</h2>
+                <p id="balanceValue">$</p>
+            </div>
+            <div class="card">
+                <h2>Recent Transactions</h2>
+            </div>
+            <button class="addTransaction" onclick="addTransaction({ amount: 500, category: 'Income', date: '2024-12-15' })">Add Transaction</button>
+            <div id="transaction-container">
+                <p id="no-transactions-message">No transactions to display</p>
+            </div>
     </body>
     <script src="scripts/index.js" type="module"></script>
 </html>

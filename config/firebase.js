@@ -1,5 +1,7 @@
 export const firebaseConfig = {
     apiKey: "AIzaSyAXuGRwCRcy9379sVXxkl6ScpuvN26uajQ",
+    databaseURL:
+        "https://lm-fbla-code-and-program-24-25-default-rtdb.firebaseio.com",
     authDomain: "lm-fbla-code-and-program-24-25.firebaseapp.com",
     projectId: "lm-fbla-code-and-program-24-25",
     storageBucket: "lm-fbla-code-and-program-24-25.firebasestorage.app",

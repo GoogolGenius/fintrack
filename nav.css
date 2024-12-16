@@ -1,9 +1,11 @@
 html {
+    font-family: inter, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
 }
 
 .nav {
+    align-items: center;
     background: linear-gradient(to right, #6699cc, #66ccff, #99ccff);
     display: flex;
     justify-content: center;
@@ -38,4 +40,15 @@ html {
     .content {
         width: 100%;
     }
+}
+
+.firebaseSignOut {
+    background-color: transparent;
+    border-color: black;
+    border-width: 1px;
+    height: 50px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 10px 25px;
+    transition: filter 0.3s ease, background-color 0.3s ease;
 }

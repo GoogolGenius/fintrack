@@ -1,3 +1,7 @@
+html {
+    font-family: inter, Helvetica, sans-serif;
+}
+
 .dropdown-container {
     align-items: center;
     display: flex;
