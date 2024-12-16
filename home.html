@@ -18,7 +18,9 @@
             <a href="history.html"
                 ><img src="assets/clock.png" class="navElement"
             /></a>
-            <button class="firebaseSignOut navElement" onclick="signOut()">Sign Out</button>
+            <button class="firebaseSignOut navElement" onclick="signOut()">
+                Sign Out
+            </button>
         </div>
         <div class="homeContent">
             <h1>Dashboard</h1>
@@ -29,10 +31,85 @@
             <div class="card">
                 <h2>Recent Transactions</h2>
             </div>
-            <button class="addTransaction" onclick="addTransaction({ amount: 500, category: 'Income', date: '2024-12-15' })">Add Transaction</button>
+            <button id="open-modal-btn">Add Transaction</button>
+            <dialog id="transaction-dialog">
+                <form method="dialog" class="transaction-form" id="transaction-form">
+                    <h2>Add Transaction</h2>
+                    <label for="transaction-title">Title:</label>
+                    <input
+                        type="text"
+                        id="transaction-title"
+                        placeholder="Enter transaction title"
+                        name="transaction-title"
+                        required
+                    />
+                    <label for="transaction-category">Category:</label>
+                    <input
+                        type="text"
+                        id="transaction-category"
+                        placeholder="Enter transaction category"
+                        name="transaction-category"
+                        required
+                    />
+                    <label for="transaction-amount">Amount:</label>
+                    <input
+                        type="number"
+                        id="transaction-amount"
+                        placeholder="Enter transaction amount"
+                        name="transaction-amount"
+                        required
+                    />
+                    <label for="transaction-date">Date:</label>
+                    <input type="date" id="transaction-date" name="transaction-date" required />
+                    <menu>
+                        <button class="cancel-btn" id="cancel-btn" value="cancel">Cancel</button>
+                        <button type="submit" value="confirm">
+                            Add Transaction
+                        </button>
+                    </menu>
+                </form>
+            </dialog>
+            <dialog id="transaction-dialog-update">
+                <form method="dialog" class="transaction-form" id="transaction-form-update">
+                    <h2>Update Transaction</h2>
+                    <label for="transaction-title-update">Title:</label>
+                    <input
+                        type="text"
+                        id="transaction-title-update"
+                        placeholder="Enter transaction title"
+                        name="transaction-title-update"
+                        required
+                    />
+                    <label for="transaction-category-update">Category:</label>
+                    <input
+                        type="text"
+                        id="transaction-category-update"
+                        placeholder="Enter transaction category"
+                        name="transaction-category-update"
+                        required
+                    />
+                    <label for="transaction-amount-update">Amount:</label>
+                    <input
+                        type="number"
+                        id="transaction-amount-update"
+                        placeholder="Enter transaction amount"
+                        name="transaction-amount-update"
+                        required
+                    />
+                    <label for="transaction-date-update">Date:</label>
+                    <input type="date" id="transaction-date-update" name="transaction-date-update" required />
+                    <menu>
+                        <button class="cancel-btn" id="cancel-btn-update" value="cancel">Cancel</button>
+                        <button type="submit" value="confirm">
+                            Update Transaction
+                        </button>
+                    </menu>
+                </form>
+            </dialog>
             <div id="transaction-container">
                 <p id="no-transactions-message">No transactions to display</p>
             </div>
+        </div>
     </body>
     <script src="scripts/index.js" type="module"></script>
 </html>

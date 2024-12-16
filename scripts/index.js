@@ -37,7 +37,9 @@ onAuthStateChanged(auth, (u) => {
     } else {
         console.log("No user is logged in.");
         // Restrict access if user is not authenticated
-        const containsSignedOutPath = ["home", "summary", "history"].some(word => window.location.href.includes(word));
+        const containsSignedOutPath = ["home", "summary", "history"].some(
+            (word) => window.location.href.includes(word)
+        );
         if (containsSignedOutPath) {
             window.location.href = "login.html";
         }
@@ -83,6 +85,59 @@ function addTransaction(transaction) {
             console.error("Error adding transaction:", error.message)
         );
 }
+
+// Add a new transaction
+// Access elements
+const openModalBtn = document.getElementById("open-modal-btn");
+const transactionDialog = document.getElementById("transaction-dialog");
+const transactionForm = document.getElementById("transaction-form");
+
+// Open the dialog
+openModalBtn.addEventListener("click", () => {
+    transactionDialog.showModal();
+});
+
+// Handle form submission
+transactionForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const title = document.getElementById("transaction-title").value;
+    const category = document.getElementById("transaction-category").value;
+    const amount = parseFloat(
+        document.getElementById("transaction-amount").value
+    );
+    const date = document.getElementById("transaction-date").value;
+
+    if (!title || !category || isNaN(amount) || !date) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    const newTransaction = {
+        title,
+        category,
+        amount,
+        date,
+    };
+
+    // Add transaction to the database
+    try {
+        addTransaction(newTransaction);
+        transactionForm.reset();
+        transactionDialog.close();
+        fetchTransactions(); // Update UI
+    } catch (error) {
+        console.error(
+            "Error in the proecess of adding transaction:",
+            error.message
+        );
+    }
+});
+
+// Close the dialog when "Cancel" is clicked
+document.getElementById("cancel-btn").addEventListener("click", () => {
+    transactionDialog.close();
+});
 
 function removeTransaction(transactionId) {
     if (!user) {
@@ -141,19 +196,26 @@ function fetchTransactions() {
     }
 
     // Get transactions for the logged-in user
-    const userTransactionsRef = ref(db, "users/" + uid + "/transactions");
+    const userTransactionsRef = ref(db, `users/${uid}/transactions`);
     get(userTransactionsRef)
         .then((snapshot) => {
-            console.log("running in .then");
-            console.log(snapshot.exists());
+            console.log("Running in .then");
             if (snapshot.exists()) {
                 console.log("Transactions found:", snapshot.val());
-                const transactions = snapshot.val(); // Database of transactions
-                // Convert object to array for easier iteration
-                const transactionArray = Object.values(transactions);
-                displayTransactionCards(transactionArray);
+                const transactions = snapshot.val();
+
+                // Use Object.entries to get an array of [key, value] pairs
+                const transactionArray = Object.entries(transactions).map(
+                    ([transactionId, transaction]) => ({
+                        transactionId,
+                        ...transaction,
+                    })
+                );
+                console.info(transactionArray);
+                displayTransactionCards(transactionArray); // Pass the array to the display function
             } else {
                 console.log("No transactions found.");
+                displayTransactionCards([]); // Ensure empty UI when no transactions exist
             }
         })
         .catch((error) => {
@@ -169,32 +231,100 @@ function displayTransactionCards(transactions) {
     const balanceValue = document.getElementById("balanceValue");
 
     let balance = 0;
-    container.innerHTML = ""; // Clear any existing cards
+    container.innerHTML = ""; // Clear existing cards
 
+    if (!transactions || transactions.length === 0) {
+        if (noTransactionsMessage)
+            noTransactionsMessage.style.display = "block";
+        return;
+    }
+    if (noTransactionsMessage) noTransactionsMessage.style.display = "none";
+
+    // Create transaction cards
     transactions.forEach((transaction) => {
-        balance += transaction.amount;
+        const { transactionId, title, category, amount, date } = transaction;
+        balance += amount;
 
         const card = document.createElement("div");
         card.classList.add("transaction-card");
 
-        const category = document.createElement("h3");
-        category.textContent = transaction.category;
-        const amount = document.createElement("p");
-        amount.textContent = `Amount: $${transaction.amount}`;
-        const date = document.createElement("p");
-        date.textContent = `Date: ${transaction.date}`;
-
-        card.appendChild(category);
-        card.appendChild(amount);
-        card.appendChild(date);
+        card.innerHTML = `
+            <h3>${title}</h3>
+            <p>Category: ${category}</p>
+            <p>Amount: $${amount.toFixed(2)}</p>
+            <p>Date: ${date}</p>
+            <button class="remove-btn" data-id="${transactionId}">Remove</button>
+            <button class="update-btn" data-id="${transactionId}">Update</button>
+        `;
 
         container.appendChild(card);
-
-        noTransactionsMessage.style.display = "none";
     });
 
-    balanceValue.textContent = `$${balance}`;
+    balanceValue.textContent = `$${balance.toFixed(2)}`;
+
+    // Attach event listeners for remove and update buttons
+    container.querySelectorAll(".remove-btn").forEach((btn) =>
+        btn.addEventListener("click", (e) => {
+            const transactionId = e.target.dataset.id;
+            removeTransaction(transactionId);
+            fetchTransactions(); // Refresh the list
+        })
+    );
+
+    container.querySelectorAll(".update-btn").forEach((btn) =>
+        btn.addEventListener("click", (e) => {
+            const transactionId = e.target.dataset.id;
+            const transaction = transactions.find(
+                (t) => t.transactionId === transactionId
+            );
+            openUpdateModal(transactionId, transaction);
+        })
+    );
 }
+
+// Open a modal for updating a transaction
+function openUpdateModal(transactionId, transaction) {
+    const transactionDialog = document.getElementById(
+        "transaction-dialog-update"
+    );
+    const transactionForm = document.getElementById("transaction-form-update");
+
+    // Populate form fields with transaction data
+    document.getElementById("transaction-title-update").value = transaction.title;
+    document.getElementById("transaction-category-update").value =
+        transaction.category;
+    document.getElementById("transaction-amount-update").value = transaction.amount;
+    document.getElementById("transaction-date-update").value = transaction.date;
+
+    // Update the form's submit event to handle updates
+    transactionForm.onsubmit = (event) => {
+        event.preventDefault();
+
+        const updatedTransaction = {
+            title: document.getElementById("transaction-title-update").value,
+            category: document.getElementById("transaction-category-update").value,
+            amount: parseFloat(
+                document.getElementById("transaction-amount-update").value
+            ),
+            date: document.getElementById("transaction-date-update").value,
+        };
+
+        console.info(updatedTransaction);
+
+        updateTransaction(transactionId, updatedTransaction);
+        transactionDialog.close();
+        fetchTransactions(); // Refresh the list
+    };
+
+    transactionDialog.showModal();
+}
+
+const transactionDialogUpdate = document.getElementById(
+    "transaction-dialog-update"
+);
+document.getElementById("cancel-btn-update").addEventListener("click", () => {
+    transactionDialogUpdate.close();
+});
 
 // Attach functions to the window object for global access
 window.signInWithGoogle = signInWithGoogle;

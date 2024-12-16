@@ -79,12 +79,14 @@ html {
         linear-gradient(90deg, rgb(18, 30, 254), rgb(34, 191, 228));
     font-family: inter, Helvetica, sans-serif;
 }
+
 body {
     align-items: center;
     display: flex;
     height: 100vh;
     justify-content: center;
     margin: 0;
+    box-sizing: border-box;
 }
 
 .container {

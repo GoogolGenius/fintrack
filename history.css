@@ -2,6 +2,10 @@ html {
     font-family: inter, Helvetica, sans-serif;
 }
 
+body {
+    box-sizing: border-box;
+}
+
 .search-container {
     text-align: center;
     width: 100%;

@@ -4,6 +4,10 @@ html {
     padding: 0;
 }
 
+body {
+    box-sizing: border-box;
+}
+
 .nav {
     align-items: center;
     background: linear-gradient(to right, #6699cc, #66ccff, #99ccff);
