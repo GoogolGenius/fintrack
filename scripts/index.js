@@ -36,6 +36,11 @@ onAuthStateChanged(auth, (u) => {
         console.log("User ID:", user.uid);
     } else {
         console.log("No user is logged in.");
+        // Restrict access if user is not authenticated
+        const containsSignedOutPath = ["home", "summary", "history"].some(word => window.location.href.includes(word));
+        if (containsSignedOutPath) {
+            window.location.href = "login.html";
+        }
     }
 });
 
