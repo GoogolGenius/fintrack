@@ -16,7 +16,7 @@
         <div class="container">
             <div class="centered">
                 <a href="index.html"
-                    ><img src="Images/home.png" width="50px"
+                    ><img src="assets/home.png" width="50px"
                 /></a>
             </div>
             <h1>Welcome</h1>
@@ -32,10 +32,15 @@
             <button class="submit">Sign In</button>
             <h6>or</h6>
             <div class="centered">
-                <button type="button" class="google">
+                <button
+                    type="button"
+                    class="google"
+                    onclick="signInWithGoogle()"
+                >
                     Sign in with Google
                 </button>
             </div>
         </div>
     </body>
+    <script src="scripts/index.js" type="module"></script>
 </html>
