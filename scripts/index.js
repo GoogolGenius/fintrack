@@ -235,7 +235,7 @@ function fetchTransactions() {
 // Function to format data for Chart.js
 function formatChartData(transactions) {
     const labels = transactions.map(transaction => transaction.date); 
-    const data = transactions.map(transaction => transaction.value); 
+    const data = transactions.map(transaction => transaction.amount); 
 
     return {
         labels,
