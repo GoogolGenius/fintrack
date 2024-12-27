@@ -220,6 +220,8 @@ function updateChart(chartData) {
     const ctx = document.getElementById('transactionsChart').getContext('2d');
     if (transactionsChart) {
         transactionsChart.data = chartData;
+        console.log("chart data");
+        console.log(chartData);
         transactionsChart.update();
     } else {
         transactionsChart = new Chart(ctx, {
