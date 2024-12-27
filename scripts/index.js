@@ -401,7 +401,9 @@ if (cancelButtonUpdate && transactionDialogUpdate) {
         transactionDialogUpdate.close();
     });
 }
-
+document.addEventListener('DOMContentLoaded', (event) => {
+    fetchTransactions();
+});
 // Attach functions to the window object for global access
 window.signInWithGoogle = signInWithGoogle;
 window.signOut = signOut;
