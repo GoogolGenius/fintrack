@@ -194,6 +194,63 @@ function updateTransaction(transactionId, updatedData) {
 //     });
 // }
 
+// Function to format data for Chart.js
+function formatChartData(transactions) {
+    // Sort transactions by date
+    transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    const labels = transactions.map(transaction => transaction.date); 
+    const data = transactions.map(transaction => transaction.amount); 
+
+    return {
+        labels,
+        datasets: [{
+            label: 'Transaction Values',
+            data,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        }]
+    };
+}
+
+// Function to initialize and update the Chart.js chart
+let transactionsChart;
+
+function updateChart(chartData) {
+    const ctx = document.getElementById('transactionsChart').getContext('2d');
+    if (transactionsChart) {
+        transactionsChart.data = chartData;
+        transactionsChart.update();
+    } else {
+        transactionsChart = new Chart(ctx, {
+            type: 'line', 
+            data: chartData,
+            options: {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Amount'
+                        }
+                    }
+                }
+            }
+        });
+    }
+}
+
+// Fetch transactions and update the chart
 function fetchTransactions() {
     const user = auth.currentUser;
     if (!user) {
@@ -230,45 +287,6 @@ function fetchTransactions() {
         .catch((error) => {
             console.error("Error fetching transactions:", error);
         });
-}
-
-// Function to format data for Chart.js
-function formatChartData(transactions) {
-    const labels = transactions.map(transaction => transaction.date); 
-    const data = transactions.map(transaction => transaction.amount); 
-
-    return {
-        labels,
-        datasets: [{
-            label: 'Transaction Values',
-            data,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        }]
-    };
-}
-
-// Function to initialize and update the Chart.js chart
-let transactionsChart;
-
-function updateChart(chartData) {
-    const ctx = document.getElementById('transactionsChart').getContext('2d');
-    if (transactionsChart) {
-        transactionsChart.data = chartData;
-        transactionsChart.update();
-    } else {
-        transactionsChart = new Chart(ctx, {
-            type: 'line', 
-            data: chartData,
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    }
 }
 
 
