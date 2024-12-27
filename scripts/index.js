@@ -218,7 +218,10 @@ function fetchTransactions() {
                     })
                 );
                 console.info(transactionArray);
-                displayTransactionCards(transactionArray); // Pass the array to the display function
+                displayTransactionCards(transactionArray); 
+                
+                const chartData = formatChartData(transactionArray);
+                updateChart(chartData); // Update the chart with formatted data
             } else {
                 console.log("No transactions found.");
                 displayTransactionCards([]); // Ensure empty UI when no transactions exist
@@ -228,6 +231,47 @@ function fetchTransactions() {
             console.error("Error fetching transactions:", error);
         });
 }
+
+// Function to format data for Chart.js
+function formatChartData(transactions) {
+    const labels = transactions.map(transaction => transaction.date); 
+    const data = transactions.map(transaction => transaction.value); 
+
+    return {
+        labels,
+        datasets: [{
+            label: 'Transaction Values',
+            data,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        }]
+    };
+}
+
+// Function to initialize and update the Chart.js chart
+let transactionsChart;
+
+function updateChart(chartData) {
+    const ctx = document.getElementById('transactionsChart').getContext('2d');
+    if (transactionsChart) {
+        transactionsChart.data = chartData;
+        transactionsChart.update();
+    } else {
+        transactionsChart = new Chart(ctx, {
+            type: 'line', 
+            data: chartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+}
+
+
 
 function displayTransactionCards(transactions) {
     const container = document.getElementById("transaction-container");
