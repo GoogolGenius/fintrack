@@ -6,7 +6,8 @@ Developed by Abhay S., Erich N., and Richard W. from Linn-Mar High School.
 ## Features
 
 - Easily access transaction history.
-- Data visualization and summarization using Chart.js.
+- Financial calculations and data visualization.
+- char.js to createteh data visualization
 - Sleek, fast design.
 
 ## Getting Started
