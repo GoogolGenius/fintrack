@@ -386,6 +386,7 @@ const transactionDialogUpdate = document.getElementById(
     "transaction-dialog-update"
 );
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 const cancelButtonUpdate = document.getElementById("cancel-btn-update");
 
@@ -398,6 +399,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     fetchTransactions();
 });
 =======
+=======
+>>>>>>> parent of 4e3a49a (God, I am sorry for my sins 😭🙏)
 document.getElementById("cancel-btn-update").addEventListener("click", () => {
     transactionDialogUpdate.close();
 });
