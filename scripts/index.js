@@ -385,9 +385,6 @@ function openUpdateModal(transactionId, transaction) {
 const transactionDialogUpdate = document.getElementById(
     "transaction-dialog-update"
 );
-<<<<<<< HEAD
-<<<<<<< HEAD
-
 const cancelButtonUpdate = document.getElementById("cancel-btn-update");
 
 if (cancelButtonUpdate && transactionDialogUpdate) {
@@ -395,17 +392,6 @@ if (cancelButtonUpdate && transactionDialogUpdate) {
         transactionDialogUpdate.close();
     });
 }
-document.addEventListener('DOMContentLoaded', (event) => {
-    fetchTransactions();
-});
-=======
-=======
->>>>>>> parent of 4e3a49a (God, I am sorry for my sins 😭🙏)
-document.getElementById("cancel-btn-update").addEventListener("click", () => {
-    transactionDialogUpdate.close();
-});
-
->>>>>>> parent of 4e3a49a (God, I am sorry for my sins 😭🙏)
 // Attach functions to the window object for global access
 window.signInWithGoogle = signInWithGoogle;
 window.signOut = signOut;
