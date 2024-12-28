@@ -27,3 +27,8 @@ body {
     justify-content: center;
     
 }
+transactionsChart{
+    border-width: 100px;
+    border-color: rgba(75, 192, 192, 1);
+    background-color: rgba(75, 192, 192, 0.2);
+}

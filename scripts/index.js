@@ -276,11 +276,10 @@ function fetchTransactions() {
                         ...transaction,
                     })
                 );
-                console.info(transactionArray);
-                displayTransactionCards(transactionArray); 
-                
                 const chartData = formatChartData(transactionArray);
                 updateChart(chartData); // Update the chart with formatted data
+                console.info(transactionArray);
+                displayTransactionCards(transactionArray); 
             } else {
                 console.log("No transactions found.");
                 displayTransactionCards([]); // Ensure empty UI when no transactions exist
