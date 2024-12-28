@@ -93,57 +93,51 @@ const transactionDialog = document.getElementById("transaction-dialog");
 const transactionForm = document.getElementById("transaction-form");
 
 // Open the dialog
+openModalBtn.addEventListener("click", () => {
+    transactionDialog.showModal();
+});
 
-if (openModalBtn && transactionDialog && transactionForm) {
-    openModalBtn.addEventListener("click", () => {
-        transactionDialog.showModal();
-    });
+// Handle form submission
+transactionForm.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-    // Handle form submission
-    transactionForm.addEventListener("submit", (event) => {
-        event.preventDefault();
+    const title = document.getElementById("transaction-title").value;
+    const category = document.getElementById("transaction-category").value;
+    const amount = parseFloat(
+        document.getElementById("transaction-amount").value
+    );
+    const date = document.getElementById("transaction-date").value;
 
-        const title = document.getElementById("transaction-title").value;
-        const category = document.getElementById("transaction-category").value;
-        const amount = parseFloat(
-            document.getElementById("transaction-amount").value
+    if (!title || !category || isNaN(amount) || !date) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    const newTransaction = {
+        title,
+        category,
+        amount,
+        date,
+    };
+
+    // Add transaction to the database
+    try {
+        addTransaction(newTransaction);
+        transactionForm.reset();
+        transactionDialog.close();
+        fetchTransactions(); // Update UI
+    } catch (error) {
+        console.error(
+            "Error in the proecess of adding transaction:",
+            error.message
         );
-        const date = document.getElementById("transaction-date").value;
-
-        if (!title || !category || isNaN(amount) || !date) {
-            alert("Please fill in all fields.");
-            return;
-        }
-
-        const newTransaction = {
-            title,
-            category,
-            amount,
-            date,
-        };
-
-        // Add transaction to the database
-        try {
-            addTransaction(newTransaction);
-            transactionForm.reset();
-            transactionDialog.close();
-            fetchTransactions(); // Update UI
-        } catch (error) {
-            console.error(
-                "Error in the proecess of adding transaction:",
-                error.message
-            );
-        }
-    });
-}
+    }
+});
 
 // Close the dialog when "Cancel" is clicked
-const cancelBtn = document.getElementById("cancel-btn");
-if (cancelBtn && transactionDialog) {
-    cancelBtn.addEventListener("click", () => {
-        transactionDialog.close();
-    });
-}
+document.getElementById("cancel-btn").addEventListener("click", () => {
+    transactionDialog.close();
+});
 
 function removeTransaction(transactionId) {
     if (!user) {
@@ -359,12 +353,10 @@ function openUpdateModal(transactionId, transaction) {
     const transactionForm = document.getElementById("transaction-form-update");
 
     // Populate form fields with transaction data
-    document.getElementById("transaction-title-update").value =
-        transaction.title;
+    document.getElementById("transaction-title-update").value = transaction.title;
     document.getElementById("transaction-category-update").value =
         transaction.category;
-    document.getElementById("transaction-amount-update").value =
-        transaction.amount;
+    document.getElementById("transaction-amount-update").value = transaction.amount;
     document.getElementById("transaction-date-update").value = transaction.date;
 
     // Update the form's submit event to handle updates
@@ -373,8 +365,7 @@ function openUpdateModal(transactionId, transaction) {
 
         const updatedTransaction = {
             title: document.getElementById("transaction-title-update").value,
-            category: document.getElementById("transaction-category-update")
-                .value,
+            category: document.getElementById("transaction-category-update").value,
             amount: parseFloat(
                 document.getElementById("transaction-amount-update").value
             ),
@@ -394,6 +385,7 @@ function openUpdateModal(transactionId, transaction) {
 const transactionDialogUpdate = document.getElementById(
     "transaction-dialog-update"
 );
+<<<<<<< HEAD
 
 const cancelButtonUpdate = document.getElementById("cancel-btn-update");
 
@@ -405,6 +397,12 @@ if (cancelButtonUpdate && transactionDialogUpdate) {
 document.addEventListener('DOMContentLoaded', (event) => {
     fetchTransactions();
 });
+=======
+document.getElementById("cancel-btn-update").addEventListener("click", () => {
+    transactionDialogUpdate.close();
+});
+
+>>>>>>> parent of 4e3a49a (God, I am sorry for my sins 😭🙏)
 // Attach functions to the window object for global access
 window.signInWithGoogle = signInWithGoogle;
 window.signOut = signOut;
