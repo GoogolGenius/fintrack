@@ -214,7 +214,16 @@ function fetchTransactions() {
                     })
                 );
                 console.info(transactionArray);
-                displayTransactionCards(transactionArray); 
+                try {
+                     displayTransactionCards(transactionArray); 
+                } catch (error) {
+                     console.error("Error displaying transactions:", error); 
+                }
+                try {
+                     plotTransactions(transactionArray); 
+                } catch (error) {
+                     console.error("Error plotting transactions:", error); 
+                }
             } else {
                 console.log("No transactions found.");
                 displayTransactionCards([]); // Ensure empty UI when no transactions exist
@@ -224,7 +233,43 @@ function fetchTransactions() {
             console.error("Error fetching transactions:", error);
         });
 }
-
+//Plot transactions
+//TODO: Implement dropdown interactivity
+function plotTransactions(transactionArray) {
+    const ctx = document.getElementById('transactionsChart').getContext('2d');
+    
+    // Extract data for the chart
+    const dates = transactionArray.map(transaction => transaction.date); 
+    const amounts = transactionArray.map(transaction => transaction.amount); 
+    
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'Transaction Amount',
+                data: amounts,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
 
 
 function displayTransactionCards(transactions) {
