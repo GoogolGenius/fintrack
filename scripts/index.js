@@ -244,6 +244,14 @@ function plotTransactions(transactionArray) {
     const dates = transactionArray.map(transaction => transaction.date); 
     const amounts = transactionArray.map(transaction => transaction.amount); 
     
+    // Combine dates and amounts into a single array for sorting
+    const sortedData = dates.map((date, index) => ({ date, amount: amounts[index] }))
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    // Separate the sorted data back into individual arrays
+    const sortedDates = sortedData.map(item => item.date);
+    const sortedAmounts = sortedData.map(item => item.amount);
+    
     new Chart(ctx, {
         type: 'line',
         data: {
