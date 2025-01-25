@@ -255,10 +255,10 @@ function plotTransactions(transactionArray) {
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: dates,
+            labels: sortedDates,
             datasets: [{
                 label: 'Transaction Amount',
-                data: amounts,
+                data: sortedAmounts,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
