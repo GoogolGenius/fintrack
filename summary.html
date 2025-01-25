@@ -21,6 +21,7 @@
             <button class="firebaseSignOut" onclick="signOut()">Sign Out</button>
         </div>
         <div class="content">
+            <!--TODO: Implement dropdown interactivity
             <div class="dropdown-container">
                 <select class="dropdown">
                     <option value="days">Value</option>
@@ -33,9 +34,10 @@
                     <option value="value">Balance</option>
                 </select>
             </div>
-            <img
-                src="assets/temp.png"
-            /><!-- TODO: replace this with graph code -->
+        -->
+            <div class="chart-container">
+                <canvas id="transactionsChart"></canvas>
+            </div>
         </div>
     </body>
     <script src="scripts/index.js" type="module"></script>
