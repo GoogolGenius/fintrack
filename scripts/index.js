@@ -239,46 +239,107 @@ function fetchTransactions() {
 }
 function plotTransactions(transactionArray) {
     const ctx = document.getElementById('transactionsChart').getContext('2d');
-    
-    // Extract data for the chart
-    const dates = transactionArray.map(transaction => transaction.date); 
-    const amounts = transactionArray.map(transaction => transaction.amount); 
-    
-    // Combine dates and amounts into a single array for sorting
-    const sortedData = dates.map((date, index) => ({ date, amount: amounts[index] }))
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
-    
-    // Separate the sorted data back into individual arrays
-    const sortedDates = sortedData.map(item => item.date);
-    const sortedAmounts = sortedData.map(item => item.amount);
-    
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: sortedDates,
-            datasets: [{
-                label: 'Transaction Amount',
-                data: sortedAmounts,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                    type: 'time',
-                    time: {
-                        unit: 'day'
+
+    const choice = document.getElementById('chartSelector').value;
+
+    if(choice == "daysVsTransactionAmount"){
+        // Extract data for the chart
+        const dates = transactionArray.map(transaction => transaction.date); 
+        const amounts = transactionArray.map(transaction => transaction.amount); 
+        
+        // Combine dates and amounts into a single array for sorting
+        const sortedData = dates.map((date, index) => ({ date, amount: amounts[index] }))
+            .sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        // Separate the sorted data back into individual arrays
+        const sortedDates = sortedData.map(item => item.date);
+        const sortedAmounts = sortedData.map(item => item.amount);
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: sortedDates,
+                datasets: [{
+                    label: 'Transaction Amount',
+                    data: sortedAmounts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
                     }
-                },
-                y: {
-                    beginAtZero: true
                 }
             }
-        }
-    });
+        });
+    }else if(choice == "spendingPerCategory"){
+        const categoryCounts = transactionArray.reduce((counts, transaction) => {
+            counts[transaction.category] = (counts[transaction.category] || 0) + 1;
+            return counts;
+        }, {});
+
+
+        const categories = Object.keys(categoryCounts);
+        const counts = Object.values(categoryCounts);
+
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: categories, // Category names on x-axis
+                datasets: [{
+                    label: 'Number of Transactions',
+                    data: counts, // Number of occurrences on y-axis
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Transactions'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Categories'
+                        }
+                    }
+                }
+            }
+        });
+    }else if(choice=="incomeVsExpense"){
+        console.log("TODO");
+    }
+
 }
 function displayTransactionCards(transactions) {
     const container = document.getElementById("transaction-container");
