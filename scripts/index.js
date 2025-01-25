@@ -451,6 +451,11 @@ if (cancelButtonUpdate && transactionDialogUpdate) {
         transactionDialogUpdate.close();
     });
 }
+try {
+    document.getElementById('chartSelector').addEventListener('change', fetchTransactions);
+}catch{
+    console.log("oh no an eror!1111!")
+}
 
 // Attach functions to the window object for global access
 window.signInWithGoogle = signInWithGoogle;
