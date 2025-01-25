@@ -237,25 +237,30 @@ function fetchTransactions() {
             console.error("Error fetching transactions:", error);
         });
 }
+let chart; // Declare a global variable to store the chart instance
+
 function plotTransactions(transactionArray) {
     const ctx = document.getElementById('transactionsChart').getContext('2d');
-
     const choice = document.getElementById('chartSelector').value;
 
-    if(choice == "daysVsTransactionAmount"){
-        // Extract data for the chart
+    console.log(choice);
+
+    // Destroy any existing chart before creating a new one
+    if (chart) {
+        chart.destroy();
+    }
+
+    if (choice == "daysVsTransactionAmount") {
         const dates = transactionArray.map(transaction => transaction.date); 
         const amounts = transactionArray.map(transaction => transaction.amount); 
         
-        // Combine dates and amounts into a single array for sorting
         const sortedData = dates.map((date, index) => ({ date, amount: amounts[index] }))
             .sort((a, b) => new Date(a.date) - new Date(b.date));
         
-        // Separate the sorted data back into individual arrays
         const sortedDates = sortedData.map(item => item.date);
         const sortedAmounts = sortedData.map(item => item.amount);
 
-        new Chart(ctx, {
+        chart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: sortedDates,
@@ -282,24 +287,22 @@ function plotTransactions(transactionArray) {
                 }
             }
         });
-    }else if(choice == "spendingPerCategory"){
+    } else if (choice == "spendingPerCategory") {
         const categoryCounts = transactionArray.reduce((counts, transaction) => {
             counts[transaction.category] = (counts[transaction.category] || 0) + 1;
             return counts;
         }, {});
 
-
         const categories = Object.keys(categoryCounts);
         const counts = Object.values(categoryCounts);
 
-
-        new Chart(ctx, {
+        chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: categories, // Category names on x-axis
+                labels: categories,
                 datasets: [{
                     label: 'Number of Transactions',
-                    data: counts, // Number of occurrences on y-axis
+                    data: counts,
                     backgroundColor: [
                         'rgba(75, 192, 192, 0.2)',
                         'rgba(255, 99, 132, 0.2)',
@@ -336,11 +339,54 @@ function plotTransactions(transactionArray) {
                 }
             }
         });
-    }else if(choice=="incomeVsExpense"){
-        console.log("TODO");
-    }
+    }else if (choice == "incomeVsExpense") {
+    // Separate transactions into income and expense
+    const income = transactionArray
+        .filter(transaction => transaction.amount > 0) // Income: amount > 0
+        .reduce((total, transaction) => total + transaction.amount, 0);
+
+    const expense = transactionArray
+        .filter(transaction => transaction.amount <= 0) // Expense: amount <= 0
+        .reduce((total, transaction) => total + Math.abs(transaction.amount), 0); // Use absolute value for expense
+
+    // Create a pie chart for income vs expense
+    chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Income', 'Expense'],
+            datasets: [{
+                label: 'Income vs Expense',
+                data: [income, expense],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)', // Income color
+                    'rgba(255, 99, 132, 0.2)'  // Expense color
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)', // Income border color
+                    'rgba(255, 99, 132, 1)'  // Expense border color
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            return `${label}: $${value.toFixed(2)}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
 
 }
+
 function displayTransactionCards(transactions) {
     const container = document.getElementById("transaction-container");
     const noTransactionsMessage = document.getElementById(
