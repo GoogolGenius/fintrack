@@ -582,8 +582,8 @@ try{
             }
 
             document.getElementById("search-bar").value = "";
-             searchQuery = ""; // Reset search query
-
+            searchQuery = ""; // Reset search query
+            console.log("Current sort type:", currentSortType);
             fetchTransactions();
         });
     });
@@ -592,9 +592,10 @@ try{
 }
 try{
     document.getElementById("search-bar").addEventListener("input", (e) => {
-        searchQuery = e.target.value.toLowerCase(); // Store the search query (case-insensitive)
+        searchQuery = e.target.value.toLowerCase(); 
         currentSortType = "default"; // Reset the sort type when searching
-        fetchTransactions(); // Re-fetch and display the filtered transactions
+        console.log("Search query:", searchQuery);
+        fetchTransactions(); 
     });
 }catch{
     console.log("a third error, wow i bet richard wrote this");
