@@ -54,3 +54,196 @@ body {
     font-family: inter, Arial, Helvetica, sans-serif;
     font-weight: bold;
 }
+#transaction-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.transaction-card {
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+.transaction-card h3 {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.transaction-card p {
+    font-size: 1em;
+    color: #666;
+}
+
+#add-transaction {
+    max-width: 400px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#add-transaction h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.5em;
+    color: #444;
+}
+
+.transaction-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.transaction-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.transaction-form input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+}
+
+.transaction-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.transaction-form button:hover {
+    background-color: #0056b3;
+}
+
+dialog {
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    max-width: 400px;
+    width: 90%;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+dialog h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+dialog label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+dialog input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+dialog input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+dialog menu {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding: 0;
+    list-style: none;
+}
+
+dialog menu button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+dialog menu button:hover {
+    background-color: #0056b3;
+}
+
+.transaction-form .cancel-btn {
+    background-color: #ccc;
+    color: #333;
+}
+.transaction-form .cancel-btn:hover {
+    background-color: #999;
+}
+
+#open-modal-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#open-modal-btn:hover {
+    background-color: #0056b3;
+}
+
+.transaction-card button {
+    padding: 8px 12px;
+    margin: 8px 4px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.transaction-card .remove-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.transaction-card .update-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.transaction-card button:hover {
+    opacity: 0.8;
+}
