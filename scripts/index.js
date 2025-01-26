@@ -24,6 +24,7 @@ const db = getDatabase(app);
 
 let user;
 let uid;
+let currentSortType = "alphabetical";
 
 onAuthStateChanged(auth, (u) => {
     user = u;
@@ -217,8 +218,9 @@ function fetchTransactions() {
                         ...transaction,
                     })
                 );
+                const sortedTransactions = sortTransactions(transactionArray, currentSortType);
                 try {
-                    displayTransactionCards(transactionArray); 
+                    displayTransactionCards(sortedTransactions); 
                     console.info(transactionArray);
                } catch (error) {
                     console.error("Error displaying transactions:", error); 
@@ -386,7 +388,17 @@ function plotTransactions(transactionArray) {
 }
 
 }
-
+function sortTransactions(transactions, sortType) {
+    if (sortType === "alphabetical") {
+        return transactions.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortType === "recency") {
+        return transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else if (sortType === "value") {
+        return transactions.sort((a, b) => b.amount - a.amount);
+    } else {
+        return transactions; // Default: no sorting
+    }
+}
 function displayTransactionCards(transactions) {
     try {
         // Handle the container for transaction cards
@@ -517,6 +529,26 @@ try {
     document.getElementById('chartSelector').addEventListener('change', fetchTransactions);
 }catch{
     console.log("oh no an eror!1111!")
+}
+try{
+    document.querySelectorAll(".sort-button").forEach((button) => {
+        button.addEventListener("click", (e) => {
+            const sortType = e.target.textContent.trim();
+    
+            if (sortType === "Alphabetically") {
+                currentSortType = "alphabetical";
+            } else if (sortType === "Recency") {
+                currentSortType = "recency";
+            } else if (sortType === "Value") {
+                currentSortType = "value";
+            } else {
+                currentSortType = "default";
+            }
+            fetchTransactions();
+        });
+    });
+}catch{
+    console.log("another error womp womp!!!");
 }
 
 // Attach functions to the window object for global access
