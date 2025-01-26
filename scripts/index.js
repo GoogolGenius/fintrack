@@ -388,63 +388,79 @@ function plotTransactions(transactionArray) {
 }
 
 function displayTransactionCards(transactions) {
-    const container = document.getElementById("transaction-container");
-    const noTransactionsMessage = document.getElementById(
-        "no-transactions-message"
-    );
-    const balanceValue = document.getElementById("balanceValue");
+    try {
+        // Handle the container for transaction cards
+        const container = document.getElementById("transaction-container");
+        if (container) {
+            container.innerHTML = ""; // Clear existing cards
 
-    let balance = 0;
-    container.innerHTML = ""; // Clear existing cards
+            if (!transactions || transactions.length === 0) {
+                const noTransactionsMessage = document.getElementById("no-transactions-message");
+                if (noTransactionsMessage) noTransactionsMessage.style.display = "block";
+                return; // No transactions to display
+            }
 
-    if (!transactions || transactions.length === 0) {
-        if (noTransactionsMessage)
-            noTransactionsMessage.style.display = "block";
-        return;
-    }
-    if (noTransactionsMessage) noTransactionsMessage.style.display = "none";
+            const noTransactionsMessage = document.getElementById("no-transactions-message");
+            if (noTransactionsMessage) noTransactionsMessage.style.display = "none";
 
-    // Create transaction cards
-    transactions.forEach((transaction) => {
-        const { transactionId, title, category, amount, date } = transaction;
-        balance += amount;
+            // Create transaction cards
+            transactions.forEach((transaction) => {
+                const { transactionId, title, category, amount, date } = transaction;
 
-        const card = document.createElement("div");
-        card.classList.add("transaction-card");
+                const card = document.createElement("div");
+                card.classList.add("transaction-card");
 
-        card.innerHTML = `
-            <h3>${title}</h3>
-            <p>Category: ${category}</p>
-            <p>Amount: $${amount.toFixed(2)}</p>
-            <p>Date: ${date}</p>
-            <button class="remove-btn" data-id="${transactionId}">Remove</button>
-            <button class="update-btn" data-id="${transactionId}">Update</button>
-        `;
+                card.innerHTML = `
+                    <h3>${title}</h3>
+                    <p>Category: ${category}</p>
+                    <p>Amount: $${amount.toFixed(2)}</p>
+                    <p>Date: ${date}</p>
+                    <button class="remove-btn" data-id="${transactionId}">Remove</button>
+                    <button class="update-btn" data-id="${transactionId}">Update</button>
+                `;
 
-        container.appendChild(card);
-    });
+                container.appendChild(card);
+            });
 
-    balanceValue.textContent = `$${balance.toFixed(2)}`;
-
-    // Attach event listeners for remove and update buttons
-    container.querySelectorAll(".remove-btn").forEach((btn) =>
-        btn.addEventListener("click", (e) => {
-            const transactionId = e.target.dataset.id;
-            removeTransaction(transactionId);
-            fetchTransactions(); // Refresh the list
-        })
-    );
-
-    container.querySelectorAll(".update-btn").forEach((btn) =>
-        btn.addEventListener("click", (e) => {
-            const transactionId = e.target.dataset.id;
-            const transaction = transactions.find(
-                (t) => t.transactionId === transactionId
+            // Attach event listeners for remove and update buttons
+            container.querySelectorAll(".remove-btn").forEach((btn) =>
+                btn.addEventListener("click", (e) => {
+                    const transactionId = e.target.dataset.id;
+                    removeTransaction(transactionId);
+                    fetchTransactions(); // Refresh the list
+                })
             );
-            openUpdateModal(transactionId, transaction);
-        })
-    );
+
+            container.querySelectorAll(".update-btn").forEach((btn) =>
+                btn.addEventListener("click", (e) => {
+                    const transactionId = e.target.dataset.id;
+                    const transaction = transactions.find(
+                        (t) => t.transactionId === transactionId
+                    );
+                    openUpdateModal(transactionId, transaction);
+                })
+            );
+        }
+    } catch (error) {
+        console.error("Error displaying transaction cards:", error);
+    }
+
+    try {
+        const balanceValue = document.getElementById("balanceValue");
+        if (balanceValue) {
+            let balance = 0;
+            if (transactions && transactions.length > 0) {
+                transactions.forEach((transaction) => {
+                    balance += transaction.amount;
+                });
+            }
+            balanceValue.textContent = `$${balance.toFixed(2)}`;
+        }
+    } catch (error) {
+        console.error("Error updating balance display:", error);
+    }
 }
+
 
 // Open a modal for updating a transaction
 function openUpdateModal(transactionId, transaction) {
