@@ -25,6 +25,7 @@ const db = getDatabase(app);
 let user;
 let uid;
 let currentSortType = "alphabetical";
+let searchQuery = "";
 
 onAuthStateChanged(auth, (u) => {
     user = u;
@@ -218,7 +219,8 @@ function fetchTransactions() {
                         ...transaction,
                     })
                 );
-                const sortedTransactions = sortTransactions(transactionArray, currentSortType);
+                const filteredTransactions = filterTransactions(transactionArray);
+                const sortedTransactions = sortTransactions(filteredTransactions, currentSortType);
                 try {
                     displayTransactionCards(sortedTransactions); 
                     console.info(transactionArray);
@@ -387,6 +389,24 @@ function plotTransactions(transactionArray) {
     });
 }
 
+}
+function filterTransactions(transactions) {
+    if (!searchQuery) {
+        return transactions; // Return all transactions if no search query
+    }
+
+    // Filter transactions based on title matching the search query 
+    const matchingTransactions = transactions.filter((transaction) =>
+        transaction.title.toLowerCase().includes(searchQuery)
+    );
+
+    // Non matching transactions will be moved to the end
+    const nonMatchingTransactions = transactions.filter(
+        (transaction) => !transaction.title.toLowerCase().includes(searchQuery)
+    );
+
+    // Return matching transactions first, followed by non-matching ones
+    return [...matchingTransactions, ...nonMatchingTransactions];
 }
 function sortTransactions(transactions, sortType) {
     if (sortType === "alphabetical") {
@@ -560,11 +580,24 @@ try{
             } else {
                 currentSortType = "default";
             }
+
+            document.getElementById("search-bar").value = "";
+             searchQuery = ""; // Reset search query
+
             fetchTransactions();
         });
     });
 }catch{
     console.log("another error womp womp!!!");
+}
+try{
+    document.getElementById("search-bar").addEventListener("input", (e) => {
+        searchQuery = e.target.value.toLowerCase(); // Store the search query (case-insensitive)
+        currentSortType = "default"; // Reset the sort type when searching
+        fetchTransactions(); // Re-fetch and display the filtered transactions
+    });
+}catch{
+    console.log("a third error, wow i bet richard wrote this");
 }
 
 // Attach functions to the window object for global access
