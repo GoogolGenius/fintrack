@@ -30,7 +30,9 @@ body {
 }
 
 .sort-container {
+    justify-content: center;
     align-items: center;
+    overflow: scroll;
     display: flex;
     gap: 10px;
     padding: 10px;

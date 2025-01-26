@@ -491,7 +491,11 @@ function displayTransactionCards(transactions) {
         const totalExpenseValue = document.getElementById("totalExpense");
         const numTransactionsValue = document.getElementById("numTransactions");
         const avgTransactionValue = document.getElementById("avgTransactionValue");
-        
+        const highestTransactionValue = document.getElementById("highestTransaction");
+        const lowestTransactionValue = document.getElementById("lowestTransaction");
+
+        let highestTransaction = -Infinity; 
+        let lowestTransaction = Infinity;
         let balance = 0;
         let totalIncome = 0;
         let totalExpense = 0;
@@ -506,7 +510,8 @@ function displayTransactionCards(transactions) {
                 } else {
                     totalExpense += amount;
                 }
-    
+                if (amount > highestTransaction) highestTransaction = amount;
+                if (amount < lowestTransaction) lowestTransaction = amount;
                 numTransactions++; 
             });
         }
@@ -515,12 +520,13 @@ function displayTransactionCards(transactions) {
         totalIncomeValue.textContent = `$${totalIncome.toFixed(2)}`;
         totalExpenseValue.textContent = `$${totalExpense.toFixed(2)}`;
         numTransactionsValue.textContent = numTransactions;
-
+        highestTransactionValue.textContent = `$${highestTransaction.toFixed(2)}`;
+        lowestTransactionValue.textContent = `$${lowestTransaction.toFixed(2)}`;
         const avgValue = numTransactions > 0 ? balance / numTransactions : 0;
         avgTransactionValue.textContent = `$${avgValue.toFixed(2)}`;
     
     }catch (error) {
-        console.error("Error updating balance display:", error);
+        console.error("Error updating display:", error);
     }
 }
 
@@ -590,13 +596,13 @@ try{
                 currentSortType = "alphabetical";
             } else if (sortType === "Recency") {
                 currentSortType = "recency";
-            } else if (sortType === "Value") {
+            } else if (sortType === "Descending") {
                 currentSortType = "value";
             } else if (sortType === "Alphabetically Backwards") {
                 currentSortType = "alphabetical-backwards";
             } else if (sortType === "Oldest") {
                 currentSortType = "oldest";
-            } else if (sortType === "Least Value") {
+            } else if (sortType === "Ascending") {
                 currentSortType = "least-value";
             } else if (sortType === "Category") {
                 currentSortType = "category";
