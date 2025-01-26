@@ -395,6 +395,14 @@ function sortTransactions(transactions, sortType) {
         return transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
     } else if (sortType === "value") {
         return transactions.sort((a, b) => b.amount - a.amount);
+    } else if (sortType === "alphabetical-backwards") {
+        return transactions.sort((a, b) => b.title.localeCompare(a.title));
+    } else if (sortType === "oldest") {
+        return transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+    } else if (sortType === "least-value") {
+        return transactions.sort((a, b) => a.amount - b.amount);
+    } else if (sortType === "category") {
+        return transactions.sort((a, b) => a.category.localeCompare(b.category)); // Sort by category
     } else {
         return transactions; // Default: no sorting
     }
@@ -541,6 +549,14 @@ try{
                 currentSortType = "recency";
             } else if (sortType === "Value") {
                 currentSortType = "value";
+            } else if (sortType === "Alphabetically Backwards") {
+                currentSortType = "alphabetical-backwards";
+            } else if (sortType === "Oldest") {
+                currentSortType = "oldest";
+            } else if (sortType === "Least Value") {
+                currentSortType = "least-value";
+            } else if (sortType === "Category") {
+                currentSortType = "category";
             } else {
                 currentSortType = "default";
             }
