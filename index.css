@@ -109,3 +109,7 @@ h2 {
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+#small{
+    width: 60%;
+    margin: auto;
+}
