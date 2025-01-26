@@ -487,16 +487,39 @@ function displayTransactionCards(transactions) {
 
     try {
         const balanceValue = document.getElementById("balanceValue");
-        if (balanceValue) {
-            let balance = 0;
-            if (transactions && transactions.length > 0) {
-                transactions.forEach((transaction) => {
-                    balance += transaction.amount;
-                });
-            }
-            balanceValue.textContent = `$${balance.toFixed(2)}`;
+        const totalIncomeValue = document.getElementById("totalIncome");
+        const totalExpenseValue = document.getElementById("totalExpense");
+        const numTransactionsValue = document.getElementById("numTransactions");
+        const avgTransactionValue = document.getElementById("avgTransactionValue");
+        
+        let balance = 0;
+        let totalIncome = 0;
+        let totalExpense = 0;
+        let numTransactions = 0;
+    
+        if (transactions && transactions.length > 0) {
+            transactions.forEach((transaction) => {
+                const { amount, category } = transaction;
+                balance += amount;
+                if (amount > 0) {
+                    totalIncome += amount;
+                } else {
+                    totalExpense += amount;
+                }
+    
+                numTransactions++; 
+            });
         }
-    } catch (error) {
+
+        balanceValue.textContent = `$${balance.toFixed(2)}`;
+        totalIncomeValue.textContent = `$${totalIncome.toFixed(2)}`;
+        totalExpenseValue.textContent = `$${totalExpense.toFixed(2)}`;
+        numTransactionsValue.textContent = numTransactions;
+
+        const avgValue = numTransactions > 0 ? balance / numTransactions : 0;
+        avgTransactionValue.textContent = `$${avgValue.toFixed(2)}`;
+    
+    }catch (error) {
         console.error("Error updating balance display:", error);
     }
 }
