@@ -55,7 +55,7 @@ function signInWithGoogle() {
             user = result.user;
             uid = user.uid;
 
-            window.location.href = "home.html";
+            window.location.href = "html/home.html";
             console.log("Signed in as:", user.displayName);
             console.log(uid);
         })
