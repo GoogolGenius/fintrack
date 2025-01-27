@@ -524,7 +524,7 @@ function displayTransactionCards(transactions) {
         lowestTransactionValue.textContent = `$${lowestTransaction.toFixed(2)}`;
         const avgValue = numTransactions > 0 ? balance / numTransactions : 0;
         avgTransactionValue.textContent = `$${avgValue.toFixed(2)}`;
-    
+        document.getElementById("userName").textContent = `Welcome, ${user.displayName}`;
     }catch (error) {
         console.error("Error updating display:", error);
     }
