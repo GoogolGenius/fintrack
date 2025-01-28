@@ -387,7 +387,74 @@ function plotTransactions(transactionArray) {
             }
         }
     });
+} else if (choice == "daysVsBalance") {
+
+    const sortedData = transactionArray
+        .map(transaction => ({
+            date: new Date(transaction.date), 
+            amount: transaction.amount
+        }))
+        .sort((a, b) => a.date - b.date);
+
+
+    let cumulativeBalance = 0;
+    const dates = [];
+    const balances = [];
+
+    sortedData.forEach(({ date, amount }) => {
+        cumulativeBalance += amount; 
+        dates.push(date.toISOString().split('T')[0]); // Format date as YYYY-MM-DD
+        balances.push(cumulativeBalance);
+    });
+
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates, 
+            datasets: [{
+                label: 'Balance',
+                data: balances, 
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    },
+                    type: 'time',
+                    time: {
+                        unit: 'day' 
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Cumulative Balance ($)'
+                    },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const value = context.raw || 0;
+                            return `$${value.toFixed(2)}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
 }
+
 
 }
 function filterTransactions(transactions) {

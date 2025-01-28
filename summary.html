@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles/nav.css" />
+        <link rel="stylesheet" href="styles/summary.css" />
+        <title>Transaction Summaries</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    </head>
+    <body>
+        <div class="nav">
+            <a href="summary.html"
+                ><img src="assets/graph.png" class="navElement" id="selected"
+            /></a>
+            <a href="home.html"
+                ><img src="assets/house.png" class="navElement"
+            /></a>
+            <a href="history.html"
+                ><img src="assets/clock.png" class="navElement"
+            /></a>
+            <button class="firebaseSignOut" onclick="signOut()">Sign Out</button>
+        </div>
+        <div class="content">
+            
+            <div class="dropdown-container">
+                <select class="dropdown" id="chartSelector">
+                    <option value="daysVsTransactionAmount">Days vs. Transaction Amount</option>
+                    <option value="daysVsBalance">Income vs. Expense</option>
+                    <option value="spendingPerCategory">Spending per Category</option>
+                    <option value="incomeVsExpense">Income vs. Expense</option>
+                </select>
+            </div>
+        
+            <div class="chart-container">
+                <canvas id="transactionsChart"></canvas>
+            </div>
+        </div>
+    </body>
+    <script src="scripts/index.js" type="module"></script>
+</html>
