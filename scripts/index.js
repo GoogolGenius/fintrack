@@ -67,7 +67,7 @@ function signInWithGoogle() {
 function signOut() {
     firebaseSignOut(auth)
         .then(() => {
-            window.location.href = "index.html";
+            window.location.href = "../index.html";
             console.log("Signed out successfully.");
         })
         .catch((error) => console.error("Sign-out error:", error.message));
@@ -353,7 +353,7 @@ function plotTransactions(transactionArray) {
         .filter(transaction => transaction.amount <= 0) // Expense: amount <= 0
         .reduce((total, transaction) => total + Math.abs(transaction.amount), 0); // Use absolute value for expense
 
-    // Create a pie chart for income vs expense
+    // Create a pie chart 
     chart = new Chart(ctx, {
         type: 'pie',
         data: {
@@ -362,12 +362,12 @@ function plotTransactions(transactionArray) {
                 label: 'Income vs Expense',
                 data: [income, expense],
                 backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)', // Income color
-                    'rgba(255, 99, 132, 0.2)'  // Expense color
+                    'rgba(75, 192, 192, 0.2)', 
+                    'rgba(255, 99, 132, 0.2)'  
                 ],
                 borderColor: [
-                    'rgba(75, 192, 192, 1)', // Income border color
-                    'rgba(255, 99, 132, 1)'  // Expense border color
+                    'rgba(75, 192, 192, 1)', 
+                    'rgba(255, 99, 132, 1)'  
                 ],
                 borderWidth: 1
             }]
@@ -476,7 +476,7 @@ function levenshteinDistance(s1, s2) {
     return dp[len1][len2];
 }
 
-function filterTransactions(transactions, searchQuery) {
+function filterTransactions(transactions) {
     if (!searchQuery) {
         return transactions;
     }
