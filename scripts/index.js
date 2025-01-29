@@ -473,7 +473,7 @@ function levenshteinDistance(s1, s2) {
         }
     }
     
-    return dp[len1][len2] / Math.max(len1, len2);;
+    return dp[len1][len2] / Math.max(len1, len2);
 }
 
 function filterTransactions(transactions) {
