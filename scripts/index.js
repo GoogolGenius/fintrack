@@ -457,24 +457,37 @@ function plotTransactions(transactionArray) {
 
 
 }
-function filterTransactions(transactions) {
+function levenshteinDistance(s1, s2) {
+    const len1 = s1.length;
+    const len2 = s2.length;
+    
+    let dp = Array.from(Array(len1 + 1), () => Array(len2 + 1).fill(0));
+    
+    for (let i = 0; i <= len1; i++) dp[i][0] = i;
+    for (let j = 0; j <= len2; j++) dp[0][j] = j;
+    
+    for (let i = 1; i <= len1; i++) {
+        for (let j = 1; j <= len2; j++) {
+            let cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
+            dp[i][j] = Math.min(dp[i - 1][j] + 1,dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+        }
+    }
+    
+    return dp[len1][len2];
+}
+
+function filterTransactions(transactions, searchQuery) {
     if (!searchQuery) {
-        return transactions; // Return all transactions if no search query
+        return transactions;
     }
 
-    // Filter transactions based on title matching the search query 
-    const matchingTransactions = transactions.filter((transaction) =>
-        transaction.title.toLowerCase().includes(searchQuery)
-    );
-
-    // Non matching transactions will be moved to the end
-    const nonMatchingTransactions = transactions.filter(
-        (transaction) => !transaction.title.toLowerCase().includes(searchQuery)
-    );
-
-    // Return matching transactions first, followed by non-matching ones
-    return [...matchingTransactions, ...nonMatchingTransactions];
+    return transactions.sort((a, b) => {
+        const distanceA = levenshteinDistance(a.title.toLowerCase(), searchQuery.toLowerCase());
+        const distanceB = levenshteinDistance(b.title.toLowerCase(), searchQuery.toLowerCase());
+        return distanceA - distanceB;
+    });
 }
+
 function sortTransactions(transactions, sortType) {
     if (sortType === "alphabetical") {
         return transactions.sort((a, b) => a.title.localeCompare(b.title));

@@ -249,3 +249,6 @@ dialog menu button:hover {
 .transaction-card button:hover {
     opacity: 0.8;
 }
+.max{
+    width: 100%;
+}
