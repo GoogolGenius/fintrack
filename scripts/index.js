@@ -677,13 +677,13 @@ try{
             } else if (sortType === "Recency") {
                 currentSortType = "recency";
             } else if (sortType === "Descending") {
-                currentSortType = "least-value";
+                currentSortType = "value";
             } else if (sortType === "Alphabetically Backwards") {
                 currentSortType = "alphabetical-backwards";
             } else if (sortType === "Oldest") {
                 currentSortType = "oldest";
             } else if (sortType === "Ascending") {
-                currentSortType = "value";
+                currentSortType = "least-value";
             } else if (sortType === "Category") {
                 currentSortType = "category";
             } else {
