@@ -10,7 +10,8 @@ A financial web application built using HTML, CSS, JavaScript, React, and Fireba
 - **User Authentication**: Secure sign-up and login functionality using Firebase Authentication.
 - **Real-time Database**: Store and retrieve transaction data in real-time using Firebase.
 - **Responsive Design**: Mobile-friendly design that works seamlessly on any device.
-
+- **Easy Summarization**: Easily view numerical summarizations via the dashboard.
+  
 ## Technology Used
 
 - **HTML/CSS**: For structuring and styling the web application's front end.
