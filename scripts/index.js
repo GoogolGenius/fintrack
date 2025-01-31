@@ -480,11 +480,7 @@ function filterTransactions(transactions) {
     if (!searchQuery) {
         return transactions;
     }
-    console.log(transactions.sort((a, b) => {
-        const distanceA = levenshteinDistance(a.title.toLowerCase(), searchQuery.toLowerCase());
-        const distanceB = levenshteinDistance(b.title.toLowerCase(), searchQuery.toLowerCase());
-        return distanceA - distanceB;
-    }));
+
     return transactions.sort((a, b) => {
         const distanceA = levenshteinDistance(a.title.toLowerCase(), searchQuery.toLowerCase());
         const distanceB = levenshteinDistance(b.title.toLowerCase(), searchQuery.toLowerCase());
