@@ -74,6 +74,7 @@ h1 {
     font-size: 6em;
     text-align: center;
 }
+
 h2 {
     font-size: 3em;
     text-align: center;
@@ -96,10 +97,13 @@ h2 {
     font-size: 2.5em;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 20px;
     padding: 25px;
     text-decoration: none;
     width: fit-content;
+    border: none;
 }
+
 .getStarted:hover {
     cursor: pointer;
 }
