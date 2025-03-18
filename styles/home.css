@@ -1,77 +1,183 @@
 body {
-    font-family: Inter, Helvetica, sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-  }
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: #f8fafc;
+  margin: 0;
+  padding: 0;
+  color: #334155;
+  line-height: 1.5;
+}
 
+.homeContent {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.homeContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  opacity: 0.8;
+}
+
+.card:nth-child(2)::before {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+.card:nth-child(3)::before {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.card:nth-child(4)::before {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.card:nth-child(5)::before {
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+}
+
+.card:nth-child(6)::before {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.card:nth-child(7)::before {
+  background: linear-gradient(90deg, #6366f1, #818cf8);
+}
+
+.card:nth-child(8)::before {
+  background: linear-gradient(90deg, #ec4899, #f472b6);
+}
+
+.card:nth-child(9)::before {
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+
+.card h2 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.card p {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.card:first-of-type {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+}
+
+.card:first-of-type h2,
+.card:first-of-type p {
+  color: white;
+}
+
+.card:first-of-type::before {
+  display: none;
+}
+
+.card:nth-child(9) {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card:nth-child(9) h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+#userName {
+  color: white;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
   .homeContent {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
+  
+  .card:first-of-type {
+    grid-column: auto;
+  }
+}
 
+@media (max-width: 768px) {
+  .homeContent {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+    margin: 1.5rem auto;
+  }
+  
   h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #333333;
-    margin-bottom: 30px;
+    font-size: 1.875rem;
   }
-
-  .homeContent {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-  }
-
+  
   .card {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.25rem;
   }
-
-
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-
+  
   .card h2 {
-    font-size: 1.5rem;
-    color: #555555;
-    margin-bottom: 10px;
+    font-size: 1rem;
   }
+  
+  .card p {
+    font-size: 1.5rem;
+  }
+}
 
-
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  .card {
+    padding: 1rem;
+  }
+  
   .card p {
     font-size: 1.25rem;
-    font-weight: bold;
-    color: #222222;
-    margin: 0;
   }
-
-  @media (max-width: 768px) {
-    h1 {
-      font-size: 2rem;
-    }
-
-    .card h2 {
-      font-size: 1.25rem;
-    }
-
-    .card p {
-      font-size: 1rem;
-    }
-  }
-
-  #userName{
-    font-size: 1.75rem;
-    color:#333333;
-  }
+}

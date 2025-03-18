@@ -9,17 +9,26 @@
     </head>
     <body>
         <div class="nav">
-            <a href="summary.html"
-                ><img src="../assets/graph.png" class="navElement"
-            /></a>
-            <a href="home.html"
-                ><img src="../assets/house.png" class="navElement" id="selected"
-            /></a>
-            <a href="history.html"
-                ><img src="../assets/clock.png" class="navElement"
-            /></a>
-            <button class="firebaseSignOut" onclick="signOut()">Sign Out</button>
+            <div class="nav-left">
+                <h4 id="userName">Welcome</h4>
+            </div>
+            <div class="nav-links">
+                <a href="summary.html">
+                    <img src="../assets/graph.png" class="navElement" />
+                </a>
+                <a href="home.html">
+                    <img src="../assets/house.png" class="navElement" id="selected" />
+                </a>
+                <a href="history.html">
+                    <img src="../assets/clock.png" class="navElement" />
+                </a>
+            </div>
+            <div class="nav-right">
+                <button class="firebaseSignOut" onclick="signOut()">Sign Out</button>
+            </div>
         </div>
+        
+        
         <div class="homeContent">
             <h1>Dashboard</h1>
             <div class="card">
@@ -53,9 +62,6 @@
             <div class="card">
                 <h2>Lowest Transaction</h2>
                 <p id="lowestTransaction">$</p>
-            </div>
-            <div class="card">
-                <h2 id="userName">Welcome</h2>
             </div>
         </div>
     </body>

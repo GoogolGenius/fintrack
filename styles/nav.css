@@ -1,77 +1,138 @@
-html {
-    font-family: inter, Helvetica, sans-serif;
+html, body {
     margin: 0;
     padding: 0;
-}
-
-body {
+    font-family: 'Inter', Helvetica, sans-serif;
     box-sizing: border-box;
-    margin: 0;
+    background-color: #f9f9f9; 
 }
 
 .nav {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    background: linear-gradient(to right, #6699cc, #66ccff, #99ccff);
+    background-color: #ffffff; 
+    padding: 16px 40px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05); 
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid #e0e0e0; 
+    transition: background-color 0.3s ease;
+}
+
+.nav:hover {
+    background-color: #f4f4f4; 
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: space-between; 
+}
+
+#userName {
+    color: #333333; 
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px; 
+}
+
+.nav-links {
     display: flex;
     justify-content: center;
-    padding: 0;
-    width: 100%;
+    align-items: center;
+    flex-wrap: wrap; 
 }
 
 .navElement {
-    height: 50px;
-    margin-left: 5%;
-    margin-right: 5%;
-    padding: 10px 25px;
-    transition: filter 0.3s ease, background-color 0.3s ease;
+    height: 48px;
+    width: 48px;
+    margin: 0 12px;
+    transition: all 0.3s ease-in-out;
+    border-radius: 50%; 
+    background-color: rgba(0, 123, 255, 0.15); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(1);
+    opacity: 0.85;
 }
 
 .navElement:hover {
-    background-color: rgba(102, 122, 255, 0.519);
+    background-color: rgba(0, 123, 255, 0.25); 
     cursor: pointer;
-    filter: brightness(1.2) contrast(1.1);
+    transform: scale(1.15);
+    opacity: 1; 
 }
 
+
 #selected {
-    filter: sepia(100%) hue-rotate(190deg) saturate(500%);
+    background-color: #007bff; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+    opacity: 1; 
+    transform: scale(1.1); 
 }
-.content {
-    background-color: #e9edf6;
-    height: fit-content;
-    margin: 0 auto;
-    width: 70%;
-}
-@media (max-width: 600px) {
-    .content {
-        width: 100%;
-    }
+
+.nav-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 8px; 
 }
 
 .firebaseSignOut {
     background-color: transparent;
-    border: 1px solid #4a78a5;
-    color: #4a78a5;
-    height: 40px;
-    padding: 8px 20px;
-    font-size: 14px;
+    border: 2px solid #007bff;
+    color: #007bff;
+    height: 36px; 
+    padding: 8px 16px; 
+    font-size: 12px; 
     font-weight: 500;
-    border-radius: 6px;
-    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     cursor: pointer;
     outline: none;
-    position: absolute; /* Positioning it absolutely */
-    top: 10px; /* You can adjust this to position it further down or up */
-    right: 10px; /* Moves it to the far right */
+    text-transform: uppercase;
+    margin-left: 8px; 
+    margin-right: 50px;
 }
 
 
-.firebaseSignOut:hover {
-    background-color: rgba(74, 120, 165, 0.1);
-    border-color: #375d85;
-    color: #375d85;
-}
+@media (max-width: 600px) {
+    .nav {
+        flex-direction: row; 
+        padding: 12px 20px;
+        flex-wrap: wrap;
+    }
 
-.firebaseSignOut:active {
-    background-color: rgba(74, 120, 165, 0.2);
-    transform: scale(0.98);
+    .nav-left {
+        text-align: left;
+        width: auto;
+        justify-content: flex-start;
+    }
+
+    .nav-links {
+        margin-top: 0;
+        flex-grow: 1;
+        justify-content: center;
+    }
+
+    .navElement {
+        margin: 0 8px; 
+        width: 40px;
+        height: 40px;
+    }
+
+    .firebaseSignOut {
+        margin-top: 0;
+        width: auto; 
+        max-width: none;
+        box-sizing: border-box;
+    }
 }

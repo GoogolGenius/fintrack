@@ -43,7 +43,7 @@ onAuthStateChanged(auth, (u) => {
             (word) => window.location.href.includes(word)
         );
         if (containsSignedOutPath) {
-            window.location.href = "login.html";
+            window.location.href = "index.html";
         }
     }
 });
