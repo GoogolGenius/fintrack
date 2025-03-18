@@ -89,6 +89,10 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 We used CC-licensed images from Openverse.
 
+## Awards
+
+Placed #2 at FBLA DLC for Coding and Programming
+
 ## Contact
 
 If you have any questions or suggestions, feel free to reach out to the developers:
