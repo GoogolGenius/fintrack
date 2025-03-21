@@ -37,6 +37,7 @@ onAuthStateChanged(auth, (u) => {
         console.log("fetched transaction");
         console.log("User is logged in:", user); // Access the user object here
         console.log("User ID:", user.uid);
+        document.getElementById("userName").textContent = `Welcome, ${user.displayName}`;
         console.log("User name:", user.displayName);
     } else {
         console.log("No user is logged in.");
@@ -710,11 +711,6 @@ try{
 }catch{
     console.log("a third error, wow i bet richard wrote this");
 }
-        
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("userName").textContent = `Welcome, ${user.displayName}`;
-    console.log("USername " + user.displayName);
-});
 
 // Attach functions to the window object for global access
 window.signInWithGoogle = signInWithGoogle;
