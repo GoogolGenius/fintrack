@@ -57,12 +57,12 @@ body {
     font-weight: bold;
 }
 #transaction-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: center; 
     gap: 20px;
     padding: 20px;
-    justify-content: center;
-    align-items: center;
 }
 
 .transaction-card {
