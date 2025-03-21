@@ -603,9 +603,7 @@ function displayTransactionCards(transactions) {
         highestTransactionValue.textContent = `$${highestTransaction.toFixed(2)}`;
         lowestTransactionValue.textContent = `$${lowestTransaction.toFixed(2)}`;
         const avgValue = numTransactions > 0 ? balance / numTransactions : 0;
-        avgTransactionValue.textContent = `$${avgValue.toFixed(2)}`;
-        document.getElementById("userName").textContent = `Welcome, ${user.displayName}`;
-
+        avgTransactionValue.textContent = `$${avgValue.toFixed(2)}`;        
     }catch (error) {
         console.error("Error updating display:", error);
     }
@@ -710,6 +708,10 @@ try{
 }catch{
     console.log("a third error, wow i bet richard wrote this");
 }
+        
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("userName").textContent = `Welcome, ${user.displayName}`;
+});
 
 // Attach functions to the window object for global access
 window.signInWithGoogle = signInWithGoogle;
