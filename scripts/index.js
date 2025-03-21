@@ -37,7 +37,7 @@ onAuthStateChanged(auth, (u) => {
         console.log("fetched transaction");
         console.log("User is logged in:", user); // Access the user object here
         console.log("User ID:", user.uid);
-        displayedName = user.displayName;
+        console.log("User name:", user.displayName);
     } else {
         console.log("No user is logged in.");
         // Restrict access if user is not authenticated
@@ -712,8 +712,8 @@ try{
 }
         
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("userName").textContent = `Welcome, ${displayedName}`;
-    console.log(displayedName);
+    document.getElementById("userName").textContent = `Welcome, ${user.displayName}`;
+    console.log("USername " + user.displayName);
 });
 
 // Attach functions to the window object for global access
