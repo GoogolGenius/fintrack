@@ -377,6 +377,7 @@ function plotTransactions(transactionArray) {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 tooltip: {
                     callbacks: {
