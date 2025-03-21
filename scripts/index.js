@@ -713,6 +713,7 @@ try{
         
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("userName").textContent = `Welcome, ${displayedName}`;
+    console.log(displayedName);
 });
 
 // Attach functions to the window object for global access
