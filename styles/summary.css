@@ -7,18 +7,41 @@ body {
 }
 
 .dropdown-container {
-    align-items: center;
     display: flex;
-    gap: 10px;
     justify-content: center;
-    padding: 20px;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px; 
 }
 
 .dropdown {
     background-color: #f0f8ff;
     border: 1px solid #66aaff;
-    border-radius: 5px;
+    border-radius: 8px;
     color: #333;
     cursor: pointer;
-    padding: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+    min-width: 200px; 
+}
+
+.dropdown:hover,
+.dropdown:focus {
+    border-color: #5c99ff;
+    background-color: #e6f0ff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.chart-container {
+    max-width: 80%; 
+    width: 80%; 
+    margin: 0 auto;
+}
+
+canvas {
+    width: 100% !important; 
+    height: auto !important;
 }
