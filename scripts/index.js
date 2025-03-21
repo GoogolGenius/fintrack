@@ -26,6 +26,7 @@ let user;
 let uid;
 let currentSortType = "alphabetical";
 let searchQuery = "";
+let displayedName = "";
 
 onAuthStateChanged(auth, (u) => {
     user = u;
@@ -36,6 +37,7 @@ onAuthStateChanged(auth, (u) => {
         console.log("fetched transaction");
         console.log("User is logged in:", user); // Access the user object here
         console.log("User ID:", user.uid);
+        displayedName = user.displayName;
     } else {
         console.log("No user is logged in.");
         // Restrict access if user is not authenticated
@@ -710,7 +712,7 @@ try{
 }
         
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("userName").textContent = `Welcome, ${user.displayName}`;
+    document.getElementById("userName").textContent = `Welcome, ${displayedName}`;
 });
 
 // Attach functions to the window object for global access
