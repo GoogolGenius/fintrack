@@ -286,14 +286,21 @@ function plotTransactions(transactionArray) {
                         type: 'time',
                         time: {
                             unit: 'day'
+                        },
+                        grid: {
+                            display: false 
                         }
                     },
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        grid: {
+                            display: false 
+                        }
                     }
                 }
             }
         });
+        
     } else if (choice == "spendingPerCategory") {
         const categoryCounts = transactionArray.reduce((counts, transaction) => {
             counts[transaction.category] = (counts[transaction.category] || 0) + 1;
@@ -335,17 +342,24 @@ function plotTransactions(transactionArray) {
                         title: {
                             display: true,
                             text: 'Number of Transactions'
+                        },
+                        grid: {
+                            display: false 
                         }
                     },
                     x: {
                         title: {
                             display: true,
                             text: 'Categories'
+                        },
+                        grid: {
+                            display: false 
                         }
                     }
                 }
             }
         });
+        
     }else if (choice == "incomeVsExpense") {
     // Separate transactions into income and expense
     const income = transactionArray
@@ -435,6 +449,9 @@ function plotTransactions(transactionArray) {
                     type: 'time',
                     time: {
                         unit: 'day' 
+                    },
+                    grid: {
+                        display: false 
                     }
                 },
                 y: {
@@ -442,7 +459,10 @@ function plotTransactions(transactionArray) {
                         display: true,
                         text: 'Cumulative Balance ($)'
                     },
-                    beginAtZero: true
+                    beginAtZero: true,
+                    grid: {
+                        display: false 
+                    }
                 }
             },
             plugins: {
@@ -457,6 +477,7 @@ function plotTransactions(transactionArray) {
             }
         }
     });
+    
 }
 
 
