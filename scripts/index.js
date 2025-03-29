@@ -76,19 +76,33 @@ function signOut() {
         .catch((error) => console.error("Sign-out error:", error.message));
 }
 
+/**
+ * Adds a new transaction to the Firebase database for the currently logged-in user.
+ * @param {Object} transaction - The transaction object containing title, category, amount, and date.
+ */
 function addTransaction(transaction) {
+    // Check if the user is signed in
     if (!user) {
-        console.error("User is not signed in.");
-        return;
+        console.error("User is not signed in."); // Log an error if no user is signed in
+        return; // Exit the function early
     }
 
+    // Reference to the user's transactions in the Firebase database
     const transactionsRef = ref(db, `users/${uid}/transactions`);
+
+    // Create a new transaction reference (generates a unique ID for the transaction)
     const newTransactionRef = push(transactionsRef);
+
+    // Save the transaction data to the database
     set(newTransactionRef, transaction)
-        .then(() => console.log("Transaction added:", transaction))
-        .catch((error) =>
-            console.error("Error adding transaction:", error.message)
-        );
+        .then(() => {
+            // Log a success message when the transaction is added successfully
+            console.log("Transaction added:", transaction);
+        })
+        .catch((error) => {
+            // Log an error message if the transaction fails to be added
+            console.error("Error adding transaction:", error.message);
+        });
 }
 
 // Add a new transaction
