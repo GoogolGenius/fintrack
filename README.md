@@ -92,6 +92,7 @@ We used CC-licensed images from Openverse.
 ## Awards
 
 Placed #2 at FBLA DLC for Coding and Programming
+Placed #2 at FBLA SLC for Coding and Programming
 
 ## Contact
 
