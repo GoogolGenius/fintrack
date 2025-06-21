@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../styles/help.css" />
+        <link rel="stylesheet" href="../styles/nav.css" />
+        <title>Help</title>
+    </head>
+    <body>
+        <div class="nav">
+            <div class="nav-header">
+                <h1 class="logoText">FinTrack</h1>
+            </div>
+
+            <div class="nav-links">
+            <a href="home.html" class="nav-link-item">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 navElement">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"class="navElement" />
+                </svg>
+                <span class="nav-label">Dashboard</span>
+            </a>
+            <a href="summary.html" class="nav-link-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="navElement size-6">
+                    <path fill="currentColor" d="M160 80c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48h-32c-26.5 0-48-21.5-48-48V80zm-160 192c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48v160c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V272zm368-176h32c26.5 0 48 21.5 48 48v288c0 26.5-21.5 48-48 48h-32c-26.5 0-48-21.5-48-48V144c0-26.5 21.5-48 48-48z" />
+                </svg>
+                <span class="nav-label">Visualization</span>
+            </a>
+
+            <a href="history.html" class="nav-link-item">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 navElement">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"class="navElement" />
+                </svg>
+                <span class="nav-label">History</span>
+            </a>
+            <a href="help.html" class="nav-link-item selected">
+                <img src ="../assets/help-circle.svg" class="size-6 navElement">
+                <span class="nav-label">Help</span>
+            </a>
+            <button class="selected nav-link-item max" id="open-modal-btn">
+                <img src="../assets/plus-mark.svg" alt="Add" class="size-6 navElement" />
+                <span class="nav-label">Add Transaction</span>
+            </button>
+            </div>
+            <div class="nav-right">
+                <div class="user-profile-row"  onclick="signOut()">
+                    <img id="user-pfp" src="" alt="Profile Picture" />
+                    
+                    <div class="user-text">
+                        <div id="user-name"></div>
+                        <div id="user-email"></div>
+                    </div>
+                    
+                    <svg id="extra-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" style="cursor:pointer;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
+                    </svg>
+
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">Can I categorize my transactions?</button>
+                    <div class="faq-answer">
+                        <p>Yes! When adding a transaction, you can assign it to a category like Food, Transportation, or Income. This helps organize your finances and improve visualizations.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Does FinTrack generate charts or graphs?</button>
+                    <div class="faq-answer">
+                        <p>Yes, FinTrack includes a Visualization page with interactive bar and pie charts that break down your income and expenses by category and time period.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Can I view my transaction history?</button>
+                    <div class="faq-answer">
+                        <p>Absolutely. The History tab lets you view, search, and sort your past transactions. You can filter by category, date, and amount.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">How do I edit or delete a transaction?</button>
+                    <div class="faq-answer">
+                        <p>Go to the History tab, locate the transaction, and use the edit or delete icons to make changes or remove it entirely.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Can I track both income and expenses?</button>
+                    <div class="faq-answer">
+                        <p>Yes. FinTrack lets you add both income and expense transactions, making it easy to monitor your cash flow and budgeting.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Can I export my data?</button>
+                    <div class="faq-answer">
+                        <p>Exporting to CSV and JSON is supported. You can download your transaction history to use in spreadsheets or for backup purposes.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Is my data secure?</button>
+                    <div class="faq-answer">
+                        <p>We prioritize your privacy. FinTrack stores your data securely and does not share it with third parties. All transactions are encrypted and tied to your account only.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </body>
+    <script src="../scripts/index.js" type="module"></script>
+</html>

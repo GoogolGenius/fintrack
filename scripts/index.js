@@ -708,14 +708,21 @@ try{
     document.querySelectorAll(".sort-button").forEach((button) => {
         button.addEventListener("click", (e) => {
             const sortType = e.target.textContent.trim();
-    
-            if (sortType === "Alphabetically") {
+   /* <button class="sort-button">A - Z</button>
+        <button class="sort-button">Z - As/button>
+        <button class="sort-button">Newest</button>
+        <button class="sort-button">Oldest</button>
+        <button class="sort-button">Ascending</button>
+        <button class="sort-button">Descending</button>
+        <button class="sort-button">Category</button>
+        */
+            if (sortType === "A - Z") {
                 currentSortType = "alphabetical";
-            } else if (sortType === "Recency") {
+            } else if (sortType === "Newest") {
                 currentSortType = "recency";
             } else if (sortType === "Descending") {
                 currentSortType = "value";
-            } else if (sortType === "Alphabetically Backwards") {
+            } else if (sortType === "Z - A") {
                 currentSortType = "alphabetical-backwards";
             } else if (sortType === "Oldest") {
                 currentSortType = "oldest";
@@ -764,6 +771,17 @@ function updateUserProfile(user) {
 
 onAuthStateChanged(auth, (user) => {
   updateUserProfile(user);
+});
+document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+        const currentItem = button.closest('.faq-item');
+        document.querySelectorAll('.faq-item.open').forEach(item => {
+            if (item !== currentItem) {
+                item.classList.remove('open');
+            }
+        });
+        currentItem.classList.toggle('open');
+    });
 });
 
 // Attach functions to the window object for global access
