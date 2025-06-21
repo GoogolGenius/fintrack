@@ -34,12 +34,10 @@ onAuthStateChanged(auth, (u) => {
 
     if (u) {
         console.log("User authenticated:", u.uid);
-        // Fetch both transactions and goals after auth confirmed
         fetchTransactions();
-        fetchGoals(); // Now properly sequenced
+        fetchGoals();
     } else {
         console.log("No user logged in");
-        // Handle signed out state
     }
 });
 
@@ -138,7 +136,7 @@ if (openModalBtn && transactionDialog && transactionForm) {
             addTransaction(newTransaction);
             transactionForm.reset();
             transactionDialog.close();
-            fetchTransactions(); // Update UI
+            fetchTransactions(); 
         } catch (error) {
             console.error(
                 "Error in the proecess of adding transaction:",
@@ -148,7 +146,7 @@ if (openModalBtn && transactionDialog && transactionForm) {
     });
 }
 
-// Close the dialog when "Cancel" is clicked
+
 const cancelBtn = document.getElementById("cancel-btn");
 if (cancelBtn && transactionDialog) {
     cancelBtn.addEventListener("click", () => {
@@ -243,21 +241,21 @@ function fetchTransactions() {
                }
             } else {
                 console.log("No transactions found.");
-                displayTransactionCards([]); // Ensure empty UI when no transactions exist
+                displayTransactionCards([]); //  empty UI when no transactions exist
             }
         })
         .catch((error) => {
             console.error("Error fetching transactions:", error);
         });
 }
-let chart; // Declare a global variable to store the chart instance
+let chart; // global variable to store the chart instance
 function plotTransactions(transactionArray) {
     const ctx = document.getElementById('transactionsChart').getContext('2d');
     const choice = document.getElementById('chartSelector').value;
 
     console.log(choice);
 
-    // Destroy any existing chart before creating a new one
+    // destroy any existing chart before creating a new one
     if (chart) {
         chart.destroy();
     }
@@ -366,7 +364,7 @@ function plotTransactions(transactionArray) {
         });
         
     }else if (choice == "incomeVsExpense") {
-    // Separate transactions into income and expense
+    // Separate 
     const income = transactionArray
         .filter(transaction => transaction.amount > 0) // Income: amount > 0
         .reduce((total, transaction) => total + transaction.amount, 0);
@@ -375,7 +373,7 @@ function plotTransactions(transactionArray) {
         .filter(transaction => transaction.amount <= 0) // Expense: amount <= 0
         .reduce((total, transaction) => total + Math.abs(transaction.amount), 0); // Use absolute value for expense
 
-    // Create a pie chart 
+    //pie chart 
     chart = new Chart(ctx, {
         type: 'pie',
         data: {
@@ -426,7 +424,7 @@ function plotTransactions(transactionArray) {
 
     sortedData.forEach(({ date, amount }) => {
         cumulativeBalance += amount; 
-        dates.push(date.toISOString().split('T')[0]); // Format date as YYYY-MM-DD
+        dates.push(date.toISOString().split('T')[0]); // YYYY-MM-DD
         balances.push(cumulativeBalance);
     });
 
@@ -533,9 +531,9 @@ function sortTransactions(transactions, sortType) {
     } else if (sortType === "least-value") {
         return transactions.sort((a, b) => a.amount - b.amount);
     } else if (sortType === "category") {
-        return transactions.sort((a, b) => a.category.localeCompare(b.category)); // Sort by category
+        return transactions.sort((a, b) => a.category.localeCompare(b.category)); 
     } else {
-        return transactions; // Default: no sorting
+        return transactions; // Default none
     }
 }
 function displayTransactionCards(transactions) {
@@ -553,7 +551,7 @@ function displayTransactionCards(transactions) {
         if (noTransactionsMessage) noTransactionsMessage.style.display = "none";
         if (table) table.style.display = "table";
 
-        tbody.innerHTML = ""; // Clear previous rows
+        tbody.innerHTML = ""; // Clear prev
 
         transactions.forEach((transaction) => {
             const { transactionId, title, category, amount, date } = transaction;
@@ -576,7 +574,7 @@ row.innerHTML = `
             tbody.appendChild(row);
         });
 
-        // Attach event listeners
+        //  event listeners
         tbody.querySelectorAll(".remove-btn").forEach((btn) =>
             btn.addEventListener("click", (e) => {
                 const transactionId = e.target.dataset.id;
@@ -625,8 +623,6 @@ row.innerHTML = `
         }
 
         const avgValue = numTransactions > 0 ? balance / numTransactions : 0;
-
-        // Set values
         balanceValue.textContent = `$${balance.toFixed(2)}`;
         totalIncomeValue.textContent = `$${totalIncome.toFixed(2)}`;
         totalExpenseValue.textContent = `$${totalExpense.toFixed(2)}`;
@@ -638,22 +634,19 @@ row.innerHTML = `
         
         highestTransactionValue.style.color = highestTransaction >= 0 ? "#16a34a" : "#dc2626";
         lowestTransactionValue.style.color = lowestTransaction >= 0 ? "#16a34a" : "#dc2626";
-        totalExpenseValue.style.color = "#dc2626"; // expenses always red
-        totalIncomeValue.style.color = "#16a34a"; // income always green
+        totalExpenseValue.style.color = "#dc2626"; 
+        totalIncomeValue.style.color = "#16a34a"; 
 
     } catch (error) {
         console.error("Error updating display:", error);
     }
 }
 
-// Open a modal for updating a transaction
 function openUpdateModal(transactionId, transaction) {
     const transactionDialog = document.getElementById(
         "transaction-dialog-update"
     );
     const transactionForm = document.getElementById("transaction-form-update");
-
-    // Populate form fields with transaction data
     document.getElementById("transaction-title-update").value =
         transaction.title;
     document.getElementById("transaction-category-update").value =
@@ -661,8 +654,6 @@ function openUpdateModal(transactionId, transaction) {
     document.getElementById("transaction-amount-update").value =
         transaction.amount;
     document.getElementById("transaction-date-update").value = transaction.date;
-
-    // Update the form's submit event to handle updates
     transactionForm.onsubmit = (event) => {
         event.preventDefault();
 
@@ -680,7 +671,7 @@ function openUpdateModal(transactionId, transaction) {
 
         updateTransaction(transactionId, updatedTransaction);
         transactionDialog.close();
-        fetchTransactions(); // Refresh the list
+        fetchTransactions(); 
     };
 
     transactionDialog.showModal();
@@ -733,7 +724,7 @@ try{
             }
 
             document.getElementById("search-bar").value = "";
-            searchQuery = ""; // Reset search query
+            searchQuery = ""; 
             console.log("Current sort type:", currentSortType);
             fetchTransactions();
         });
@@ -744,7 +735,7 @@ try{
 try{
     document.getElementById("search-bar").addEventListener("input", (e) => {
         searchQuery = e.target.value.toLowerCase(); 
-        currentSortType = "default"; // Reset the sort type when searching
+        currentSortType = "default"; 
         console.log("Search query:", searchQuery);
         fetchTransactions(); 
     });
@@ -759,11 +750,11 @@ function updateUserProfile(user) {
   if (user) {
     nameElement.textContent = user.displayName || "User";
     emailElement.textContent = user.email || "No email";
-    pfpElement.src = user.photoURL || "https://via.placeholder.com/48";
+    pfpElement.src = user.photoURL || "";
   } else {
     nameElement.textContent = "Not signed in";
     emailElement.textContent = "";
-    pfpElement.src = "https://via.placeholder.com/48";
+    pfpElement.src = "";
   }
 }
 
@@ -942,10 +933,7 @@ function fetchGoals() {
                         ...goal,
                     })
                 );
-                
-                // Sort goals by target date (soonest first)
                 const sortedGoals = goals.sort((a, b) => {
-                    // Handle goals without dates by putting them at the end
                     if (!a.targetDate) return 1;
                     if (!b.targetDate) return -1;
                     
@@ -989,8 +977,6 @@ function displayGoalCards(goals) {
 
     goals.forEach((goal) => {
         console.log(`[DEBUG] Rendering goal: ${goal.title} ($${goal.amount})`);
-        
-        // Format the date for display
         let formattedDate = 'No date set';
         if (goal.targetDate) {
             const dateObj = new Date(goal.targetDate);
@@ -999,8 +985,6 @@ function displayGoalCards(goals) {
                 month: 'short',
                 day: 'numeric'
             });
-            
-            // Add visual indicator if goal is upcoming soon
             const today = new Date();
             const timeDiff = dateObj - today;
             const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
@@ -1075,7 +1059,14 @@ function openGoalUpdateModal(goalId, goal) {
 const openGoalModalBtn = document.getElementById("open-goal-modal-btn");
 const goalDialog = document.getElementById("goal-dialog");
 const goalForm = document.getElementById("goal-form");
+const goalCancelBtn = document.getElementById("cancel-goal-btn");
 
+
+if (goalCancelBtn && goalDialog) {
+    goalCancelBtn.addEventListener("click", () => {
+        goalDialog.close();
+    });
+}
 if (openGoalModalBtn && goalDialog && goalForm) {
     openGoalModalBtn.addEventListener("click", () => {
         goalDialog.showModal();
