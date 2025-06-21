@@ -109,14 +109,25 @@
       </menu>
     </form>
   </dialog>
+ <div class="top-bar">
+  <div class="left-space"></div>
+  
   <div class="dropdown-container">
-      <select class="dropdown" id="chartSelector">
-        <option value="daysVsBalance">Days vs. Balance</option>
-        <option value="daysVsTransactionAmount">Days vs. Transaction Amount</option>
-        <option value="spendingPerCategory">Spending per Category</option>
-        <option value="incomeVsExpense">Income vs. Expense</option>
-      </select>
-    </div>
+    <select class="dropdown" id="chartSelector">
+      <option value="daysVsBalance">Days vs. Balance</option>
+      <option value="daysVsTransactionAmount">Days vs. Transaction Amount</option>
+      <option value="spendingPerCategory">Spending per Category</option>
+      <option value="incomeVsExpense">Income vs. Expense</option>
+    </select>
+  </div>
+  
+  <div class="button-group">
+    <button id="download-data-btn" class="faq-question">Download as CSV</button>
+    <button id="download-json-btn" class="faq-question">Download as JSON</button>
+  </div>
+</div>
+
+
   <script src="../scripts/index.js" type="module"></script>
 </body>
 </html>

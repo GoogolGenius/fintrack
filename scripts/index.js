@@ -33,21 +33,13 @@ onAuthStateChanged(auth, (u) => {
     uid = user ? user.uid : null;
 
     if (u) {
+        console.log("User authenticated:", u.uid);
+        // Fetch both transactions and goals after auth confirmed
         fetchTransactions();
-        console.log("fetched transaction");
-        console.log("User is logged in:", user); // Access the user object here
-        console.log("User ID:", user.uid);
-        document.getElementById("userName").textContent = `Welcome, ${user.displayName}`;
-        console.log("User name:", user.displayName);
+        fetchGoals(); // Now properly sequenced
     } else {
-        console.log("No user is logged in.");
-        // Restrict access if user is not authenticated
-        const containsSignedOutPath = ["home", "summary", "history"].some(
-            (word) => window.location.href.includes(word)
-        );
-        if (containsSignedOutPath) {
-            window.location.href = "index.html";
-        }
+        console.log("No user logged in");
+        // Handle signed out state
     }
 });
 
@@ -259,7 +251,6 @@ function fetchTransactions() {
         });
 }
 let chart; // Declare a global variable to store the chart instance
-
 function plotTransactions(transactionArray) {
     const ctx = document.getElementById('transactionsChart').getContext('2d');
     const choice = document.getElementById('chartSelector').value;
@@ -496,6 +487,7 @@ function plotTransactions(transactionArray) {
 
 
 }
+
 function levenshteinDistance(s1, s2) {
     const len1 = s1.length;
     const len2 = s2.length;
@@ -604,8 +596,7 @@ row.innerHTML = `
         console.error("Error displaying transaction table:", error);
     }
 
-    // Keep your stats code untouched
-    try {
+     try {
         const balanceValue = document.getElementById("balanceValue");
         const totalIncomeValue = document.getElementById("totalIncome");
         const totalExpenseValue = document.getElementById("totalExpense");
@@ -633,20 +624,27 @@ row.innerHTML = `
             });
         }
 
+        const avgValue = numTransactions > 0 ? balance / numTransactions : 0;
+
+        // Set values
         balanceValue.textContent = `$${balance.toFixed(2)}`;
         totalIncomeValue.textContent = `$${totalIncome.toFixed(2)}`;
         totalExpenseValue.textContent = `$${totalExpense.toFixed(2)}`;
         numTransactionsValue.textContent = numTransactions;
         highestTransactionValue.textContent = `$${highestTransaction.toFixed(2)}`;
         lowestTransactionValue.textContent = `$${lowestTransaction.toFixed(2)}`;
-        const avgValue = numTransactions > 0 ? balance / numTransactions : 0;
-        avgTransactionValue.textContent = `$${avgValue.toFixed(2)}`;        
+        avgTransactionValue.textContent = `$${avgValue.toFixed(2)}`;
+
+        
+        highestTransactionValue.style.color = highestTransaction >= 0 ? "#16a34a" : "#dc2626";
+        lowestTransactionValue.style.color = lowestTransaction >= 0 ? "#16a34a" : "#dc2626";
+        totalExpenseValue.style.color = "#dc2626"; // expenses always red
+        totalIncomeValue.style.color = "#16a34a"; // income always green
+
     } catch (error) {
         console.error("Error updating display:", error);
     }
 }
-
-
 
 // Open a modal for updating a transaction
 function openUpdateModal(transactionId, transaction) {
@@ -784,6 +782,318 @@ document.querySelectorAll('.faq-question').forEach(button => {
     });
 });
 
+function downloadCSVFromTransactions(transactions, filename = "fintrack_data.csv") {
+    if (!transactions || transactions.length === 0) {
+        alert("No transactions to download.");
+        return;
+    }
+
+    const headers = Object.keys(transactions[0]);
+    const csvRows = [headers.join(",")];
+
+    transactions.forEach(txn => {
+        const values = headers.map(header => `"${(txn[header] || "").toString().replace(/"/g, '""')}"`);
+        csvRows.push(values.join(","));
+    });
+
+    const csvContent = csvRows.join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+function downloadJSONFromTransactions(transactions, filename = "fintrack_data.json") {
+    if (!transactions || transactions.length === 0) {
+        alert("No transactions to download.");
+        return;
+    }
+
+    const jsonContent = JSON.stringify(transactions, null, 2);
+    const blob = new Blob([jsonContent], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+try {
+    document.getElementById("download-data-btn").addEventListener("click", () => {
+        if (!user) {
+            alert("Please sign in to download your data.");
+            return;
+        }
+
+        const userTransactionsRef = ref(db, `users/${uid}/transactions`);
+        get(userTransactionsRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const transactions = Object.entries(snapshot.val()).map(
+                        ([transactionId, transaction]) => ({
+                            transactionId,
+                            ...transaction,
+                        })
+                    );
+                    downloadCSVFromTransactions(transactions);
+                } else {
+                    alert("No transactions found to download.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error downloading transactions:", error);
+                alert("Failed to download data. Please try again.");
+            });
+    });
+} catch (error) {
+    console.error("Download button error:", error);
+}
+
+try {
+    document.getElementById("download-json-btn").addEventListener("click", () => {
+        if (!user) {
+            alert("Please sign in to download your data.");
+            return;
+        }
+
+        const userTransactionsRef = ref(db, `users/${uid}/transactions`);
+        get(userTransactionsRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const transactions = Object.entries(snapshot.val()).map(
+                        ([transactionId, transaction]) => ({
+                            transactionId,
+                            ...transaction,
+                        })
+                    );
+                    downloadJSONFromTransactions(transactions);
+                } else {
+                    alert("No transactions found to download.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error downloading transactions as JSON:", error);
+                alert("Failed to download JSON. Please try again.");
+            });
+    });
+} catch (error) {
+    console.error("Download JSON button error:", error);
+}
+
+function addGoal(goal) {
+    if (!user) {
+        console.error("User is not signed in.");
+        return;
+    }
+
+    const goalsRef = ref(db, `users/${uid}/goals`);
+    const newGoalRef = push(goalsRef);
+
+    set(newGoalRef, goal)
+        .then(() => console.log("Goal added:", goal))
+        .catch((error) => console.error("Error adding goal:", error.message));
+}
+
+function removeGoal(goalId) {
+    if (!user) {
+        console.error("User is not signed in.");
+        return;
+    }
+
+    const goalRef = ref(db, `users/${uid}/goals/${goalId}`);
+    remove(goalRef)
+        .then(() => console.log("Goal removed:", goalId))
+        .catch((error) => console.error("Error removing goal:", error.message));
+}
+
+function updateGoal(goalId, updatedData) {
+    if (!user) {
+        console.error("User is not signed in.");
+        return;
+    }
+
+    const goalRef = ref(db, `users/${uid}/goals/${goalId}`);
+    update(goalRef, updatedData)
+        .then(() => console.log("Goal updated:", updatedData))
+        .catch((error) => console.error("Error updating goal:", error.message));
+}
+
+function fetchGoals() {
+    console.log("[DEBUG] fetchGoals() triggered");
+    if (!user) {
+        console.error("User is not signed in.");
+        return;
+    }
+
+    const goalsRef = ref(db, `users/${uid}/goals`);
+    get(goalsRef)
+        .then((snapshot) => {
+            console.log("[DEBUG] Firebase goals data:", snapshot.exists() ? snapshot.val() : "No data");
+            if (snapshot.exists()) {
+                const goals = Object.entries(snapshot.val()).map(
+                    ([goalId, goal]) => ({
+                        goalId,
+                        ...goal,
+                    })
+                );
+                
+                // Sort goals by target date (soonest first)
+                const sortedGoals = goals.sort((a, b) => {
+                    // Handle goals without dates by putting them at the end
+                    if (!a.targetDate) return 1;
+                    if (!b.targetDate) return -1;
+                    
+                    const dateA = new Date(a.targetDate);
+                    const dateB = new Date(b.targetDate);
+                    return dateA - dateB;
+                });
+                
+                console.log("[DEBUG] Sorted goals:", sortedGoals);
+                displayGoalCards(sortedGoals);
+            } else {
+                console.log("[DEBUG] No goals found in database");
+                displayGoalCards([]);
+            }
+        })
+        .catch((error) => console.error("Error fetching goals:", error));
+}
+
+function displayGoalCards(goals) {
+    console.log("[DEBUG] displayGoalCards() called with:", goals);
+    
+    const goalContainer = document.getElementById("goal-table-body");
+    if (!goalContainer) {
+        console.error("goal-table-body element not found!");
+        return;
+    }
+
+    goalContainer.innerHTML = "";
+
+    if (!goals || goals.length === 0) {
+        console.log("[DEBUG] No goals to display, showing empty state");
+        goalContainer.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align: center; color: #666;">
+                    No goals found. Add your first goal!
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    goals.forEach((goal) => {
+        console.log(`[DEBUG] Rendering goal: ${goal.title} ($${goal.amount})`);
+        
+        // Format the date for display
+        let formattedDate = 'No date set';
+        if (goal.targetDate) {
+            const dateObj = new Date(goal.targetDate);
+            formattedDate = dateObj.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+            
+            // Add visual indicator if goal is upcoming soon
+            const today = new Date();
+            const timeDiff = dateObj - today;
+            const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            
+            let dateClass = '';
+            if (daysDiff <= 7 && daysDiff >= 0) {
+                dateClass = 'goal-soon';
+            } else if (daysDiff < 0) {
+                dateClass = 'goal-past';
+            }
+            
+            formattedDate = `<span class="${dateClass}">${formattedDate}</span>`;
+        }
+        
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${goal.title || 'Untitled Goal'}</td>
+            <td>$${goal.amount ? goal.amount.toFixed(2) : '0.00'}</td>
+            <td>${formattedDate}</td>
+            <td><button class="update-goal-btn" data-id="${goal.goalId}">Update</button></td>
+            <td><button class="remove-goal-btn" data-id="${goal.goalId}">Remove</button></td>
+        `;
+        goalContainer.appendChild(row);
+    });
+
+    attachGoalButtonListeners(goals);
+}
+
+function attachGoalButtonListeners(goals) {
+    document.querySelectorAll(".remove-goal-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const goalId = e.target.dataset.id;
+            
+                removeGoal(goalId);
+                fetchGoals();
+            
+        });
+    });
+
+    document.querySelectorAll(".update-goal-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const goalId = e.target.dataset.id;
+            const goal = goals.find(g => g.goalId === goalId);
+            openGoalUpdateModal(goalId, goal);
+        });
+    });
+}
+
+function openGoalUpdateModal(goalId, goal) {
+    const dialog = document.getElementById("goal-dialog-update");
+    const form = document.getElementById("goal-form-update");
+
+    document.getElementById("goal-title-update").value = goal.title;
+    document.getElementById("goal-amount-update").value = goal.amount;
+    document.getElementById("goal-date-update").value = goal.targetDate;
+
+    form.onsubmit = (e) => {
+        e.preventDefault();
+        const updatedGoal = {
+            title: document.getElementById("goal-title-update").value,
+            amount: parseFloat(document.getElementById("goal-amount-update").value),
+            targetDate: document.getElementById("goal-date-update").value
+        };
+        updateGoal(goalId, updatedGoal);
+        dialog.close();
+        fetchGoals();
+    };
+
+    dialog.showModal();
+}
+
+const openGoalModalBtn = document.getElementById("open-goal-modal-btn");
+const goalDialog = document.getElementById("goal-dialog");
+const goalForm = document.getElementById("goal-form");
+
+if (openGoalModalBtn && goalDialog && goalForm) {
+    openGoalModalBtn.addEventListener("click", () => {
+        goalDialog.showModal();
+    });
+
+    goalForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const title = document.getElementById("goal-title").value;
+        const amount = parseFloat(document.getElementById("goal-amount").value);
+        const targetDate = document.getElementById("goal-date").value;
+        const goal = { title, amount, targetDate };
+        addGoal(goal);
+        goalForm.reset();
+        goalDialog.close();
+        fetchGoals();
+    });
+}
+
 // Attach functions to the window object for global access
 window.signInWithGoogle = signInWithGoogle;
 window.signOut = signOut;
@@ -792,3 +1102,8 @@ window.removeTransaction = removeTransaction;
 window.updateTransaction = updateTransaction;
 window.fetchTransactions = fetchTransactions;
 window.displayTransactionCards = displayTransactionCards;
+window.addGoal = addGoal;
+window.removeGoal = removeGoal;
+window.updateGoal = updateGoal;
+window.fetchGoals = fetchGoals;
+window.displayGoalCards = displayGoalCards;
