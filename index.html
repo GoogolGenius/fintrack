@@ -1,45 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Home</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="styles/index.css" />
-    </head>
-    <body>
-        <div class="fullPage">
-            <header>
-                <div class="header">
-                    <a href="index.html" class="logo">
-                        <h3 class="headerElement logoText">FinTrack</h3>
-                    </a>
-                    <a href="index.html">
-                        <h3 class="headerElement">Home</h3>
-                    </a>
-                    <div class="centered">
-                        <button
-                            type="button"
-                            class="google"
-                            onclick="signInWithGoogle()"
-                        >
-                            Sign in with Google
-                        </button>
-                    </div>
-                </div>
-            </header>
-            
-            <h1 class = "title">Invest in your <span class="highlight">future</span></h1>
-            <h2 id = "small">
-                <span class="highlight">Track </span> expenditures, get <span class="highlight">personalized summaries,</span> and <span class="highlight">easily search</span> through transactions.</h2>
-            <div class = "centered"><button type = "button" onclick = signInWithGoogle() class = "getStartedAnchor getStarted">Get started</button></div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinTrack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/index.css" />
+</head>
+
+<body>
+  <header>
+    <a href="index.html" class="logoText">FinTrack</a>
+    <button class="google" onclick="signInWithGoogle()">
+      <img src="assets/google.jpg" alt="Google logo" />
+      Sign in with Google
+    </button>
+
+  </header>
+  <main class="hero">
+    <h1>Invest in your future</h1>
+    <h2>Understand your money, make smarter decisions, and gain control with ease.</h2>
+    <div class="cta">
+      <button class="getStarted" onclick="signInWithGoogle()">Get Started</button>
+    </div>
+  </main>
+  <section class="features-section">
+    <h2>Smarter money. Simpler tools.</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <img src="assets/chatbot-icon.png" alt="AI Chatbot" />
+        <div class="feature-content">
+          <h3>AI Chatbot</h3>
+          <p>Ask financial questions and get instant, intelligent insights powered by AI.</p>
         </div>
-    </body>
-    <script src= "scripts/index.js" type="module">
-    </script>
+      </div>
+      <div class="feature">
+        <img src="assets/search-icon.png" alt="Search and Sort" />
+        <div class="feature-content">
+          <h3>Search, Sort & Add</h3>
+          <p>Easily manage transactions by searching, sorting, and adding new entries with intuitive controls.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <img src="assets/graph.png" alt="Graphs" />
+        <div class="feature-content">
+          <h3>Interactive Graphs</h3>
+          <p>Visualize your spending with sleek, customizable graphs that track trends over time.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div style="font-size: 3.5rem; font-weight: 900; color: black; margin-right: 1.25rem; line-height: 1;">$</div>
+
+        <div class="feature-content">
+          <h3>Set Financial Goals</h3>
+          <p>Define clear objectives and track your progress toward personal financial milestones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="impact">
+    <h2>Tracking Matters</h2>
+    <div class="stats-grid">
+      <div class="stat">
+        <h3>78%</h3>
+        <p>of students increased awareness of spending habits.</p>
+      </div>
+      <div class="stat">
+        <h3>20%</h3>
+        <p>average reduction in unnecessary spending among students who tracked expenses.</p>
+      </div>
+      <div class="stat">
+        <h3>85%</h3>
+        <p>felt more confident understanding their financial situation after tracking expenses.</p>
+      </div>
+      <div class="stat">
+        <h3>70%</h3>
+        <p>reported better budgeting skills after using finance apps.</p>
+      </div>
+    </div>
+    <p
+      style="margin-top: 2rem; font-size: 0.9rem; color: #6b7280; max-width: 700px; margin-left: auto; margin-right: auto;">
+      Source: Canadians and their Money: Key Findings from the 2019 Canadian Financial Capability Survey</p>
+    </p>
+  </section>
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h2>FinTrack</h2>
+        <p>Simplifying Your Finances</p>
+      </div>
+      <div class="footer-col">
+        <h3>Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="https://github.com/GoogolGenius/fintrack?tab=readme-ov-file#license" target="_blank"
+              rel="noopener">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Credits & License</h3>
+        <ul>
+          <li><a href="https://github.com/GoogolGenius/fintrack?tab=readme-ov-file#credits" target="_blank"
+              rel="noopener">Credits Section</a></li>
+          <li><a href="https://github.com/GoogolGenius/fintrack?tab=readme-ov-file#license" target="_blank"
+              rel="noopener">License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Contact & Contribute</h3>
+        <ul>
+          <li><a href="https://github.com/GoogolGenius/fintrack?tab=readme-ov-file#contact" target="_blank"
+              rel="noopener">Contact</a></li>
+          <li><a href="https://github.com/GoogolGenius/fintrack?tab=readme-ov-file#contributing" target="_blank"
+              rel="noopener">Contributing</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-github">
+      <a href="https://github.com/GoogolGenius/fintrack" target="_blank" rel="noopener">
+        <img src="assets/github-mark.png" alt="GitHub logo" />
+      </a>
+    </div>
+  </footer>
+  <script src="scripts/index.js" type="module"></script>
+</body>
+
 </html>

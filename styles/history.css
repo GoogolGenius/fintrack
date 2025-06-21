@@ -1,16 +1,13 @@
 html {
     font-family: inter, Helvetica, sans-serif;
 }
-
 body {
     box-sizing: border-box;
 }
-
 .search-container {
     text-align: center;
     width: 100%;
 }
-
 #search-bar {
     background-color: #f0f8ff;
     border: 2px solid #66aaff;
@@ -22,13 +19,12 @@ body {
     outline: none;
     padding: 20px 40px;
     width: 75%;
+    box-sizing: border-box;
 }
-
 #search-bar::placeholder {
     color: #a0a0a0;
     opacity: 1;
 }
-
 .sort-container {
     justify-content: center;
     align-items: center;
@@ -58,13 +54,12 @@ body {
 }
 #transaction-container {
     display: flex;
-    flex-wrap: wrap; 
-    justify-content: center; 
-    align-items: center; 
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
     padding: 20px;
 }
-
 .transaction-card {
     border: 1px solid #ddd;
     padding: 16px;
@@ -75,14 +70,83 @@ body {
     width: 300px;
     text-align: center;
 }
-
+   
 .transaction-card h3 {
     font-size: 1.2em;
     color: #333;
 }
-
 .transaction-card p {
     font-size: 1em;
     color: #666;
 }
 
+
+.table-container {
+    width: 75%; 
+    margin: 0 auto; 
+    box-sizing: border-box;
+}
+
+#transaction-table {
+    width: 100%; 
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-sizing: border-box;
+}
+
+#transaction-table th, #transaction-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+
+#transaction-table th,
+#transaction-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; 
+    border-left: none;
+    border-right: none;
+    text-align: left;
+    vertical-align: middle;
+}
+.transaction-title {
+    font-size: 1.2em;
+    color: #333;
+    margin: 0;
+}
+
+#transaction-table button {
+    font-size: 1em;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+}
+
+#transaction-table .update-btn {
+    background-color: #007bff;
+}
+#transaction-table .update-btn:hover {
+    background-color: #0069d9;
+}
+#transaction-table .remove-btn {
+    background-color: #dc3545;
+}
+#transaction-table .remove-btn:hover {
+    background-color: #c82333;
+}
+.amount-positive {
+    color: #28a745;
+    font-weight: bold;
+}
+.amount-negative {
+    color: #dc3545;
+    font-weight: bold;
+}
+.content {
+  margin-left: 240px; 
+  padding: 2rem 1.5rem;
+  box-sizing: border-box;
+}

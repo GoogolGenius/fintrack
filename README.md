@@ -87,7 +87,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Credits
 
-We used CC-licensed images from Openverse.
+We used CC-licensed resources from Openverse, https://feathericons.com/, and https://cssgradient.io/.
 
 ## Awards
 

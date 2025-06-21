@@ -8,28 +8,60 @@
         <title>Home</title>
     </head>
     <body>
-        <div class="nav">
-            <div class="nav-left">
-                <h4 id="userName">Welcome</h4>
-            </div>
-            <div class="nav-links">
-                <button id="open-modal-btn" class = "max">Add Transaction</button>
-                <a href="summary.html">
-                    <img src="../assets/graph.png" class="navElement" />
-                </a>
-                <a href="home.html">
-                    <img src="../assets/house.png" class="navElement" id="selected" />
-                </a>
-                <a href="history.html">
-                    <img src="../assets/clock.png" class="navElement" />
-                </a>
-            </div>
-            <div class="nav-right">
-                <button class="firebaseSignOut" onclick="signOut()">Sign Out</button>
-            </div>
+    <div class="nav">
+        <div class="nav-header">
+            <h1 class="logoText">FinTrack</h1>
         </div>
-        
-        
+
+        <div class="nav-links">
+        <a href="home.html" class="nav-link-item selected">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 navElement">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"class="navElement" />
+            </svg>
+            <span class="nav-label">Dashboard</span>
+        </a>
+        <a href="summary.html" class="nav-link-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="navElement size-6">
+                <path fill="currentColor" d="M160 80c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48h-32c-26.5 0-48-21.5-48-48V80zm-160 192c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48v160c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V272zm368-176h32c26.5 0 48 21.5 48 48v288c0 26.5-21.5 48-48 48h-32c-26.5 0-48-21.5-48-48V144c0-26.5 21.5-48 48-48z" />
+            </svg>
+            <span class="nav-label">Visualization</span>
+        </a>
+
+        <a href="history.html" class="nav-link-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 navElement">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"class="navElement" />
+            </svg>
+            <span class="nav-label">History</span>
+        </a>
+         <button class="selected nav-link-item max" id="open-modal-btn">
+            <img src="../assets/plus-mark.svg" alt="Add" class="size-6 navElement" />
+            <span class="nav-label">Add Transaction</span>
+        </button>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile-row"  onclick="signOut()">
+                <img id="user-pfp" src="" alt="Profile Picture" />
+                
+                <div class="user-text">
+                    <div id="user-name"></div>
+                    <div id="user-email"></div>
+                </div>
+                
+                <svg id="extra-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" style="cursor:pointer;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
+                </svg>
+
+            </div>
+
+        </div>
+
+        </div>
+  </div>
+
+     <div class="main-content">
+        <div class="">
+        <h4 id="userName">Welcome</h4>
+    </div>
         <div class="homeContent">
             <h1>Dashboard</h1>
             <div class="card">
@@ -64,6 +96,7 @@
                 <h2>Lowest Transaction</h2>
                 <p id="lowestTransaction">$</p>
             </div>
+        </div>
         </div>
         <dialog id="transaction-dialog">
             <form method="dialog" class="transaction-form" id="transaction-form">

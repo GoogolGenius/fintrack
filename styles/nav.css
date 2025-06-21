@@ -7,100 +7,95 @@ html, body {
 }
 
 .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff; 
-    padding: 16px 40px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05); 
-    position: sticky;
+    position: fixed;
     top: 0;
-    width: 100%;
+    left: 0;
+    height: 100vh;
+    width: 240px;
+    background-color: #ffffff;
+    box-shadow: 6px 0 12px rgba(0, 0, 0, 0.05);
     z-index: 1000;
-    border-bottom: 1px solid #e0e0e0; 
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 0;
     transition: background-color 0.3s ease;
 }
 
 .nav:hover {
-    background-color: #f4f4f4; 
+    background-color: #f4f4f4;
 }
 
 .nav-left {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 24px;
+    width: 100%;
     flex-grow: 1;
-    justify-content: space-between; 
 }
 
 #userName {
-    color: #333333; 
-    font-size: 22px;
+    color: #333333;
+    font-size: 20px;
     font-weight: 600;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 250px; 
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 0 12px;
+    max-width: 100%;
 }
 
 .nav-links {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
+    width: 100%;
 }
 
-.navElement {
-    height: 48px;
-    width: 48px;
-    margin: 0 12px;
-    transition: all 0.3s ease-in-out;
-    border-radius: 50%; 
-    background-color: rgba(0, 123, 255, 0.15); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: scale(1);
-    opacity: 0.85;
-}
+
 
 .navElement:hover {
-    background-color: rgba(0, 123, 255, 0.25); 
+    background-color: rgba(0, 123, 255, 0.25);
     cursor: pointer;
     transform: scale(1.15);
-    opacity: 1; 
+    opacity: 1;
 }
 
-
 #selected {
-    background-color: #007bff; 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
-    opacity: 1; 
-    transform: scale(1.1); 
+    background-color: #007bff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 .nav-right {
+    margin-top: auto;
+    padding-bottom: 24px;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
     align-items: center;
-    margin-left: 8px; 
+    gap: 12px;
+    width: 100%;
 }
 
 .firebaseSignOut {
-    background-color: transparent;
-    border: 2px solid #007bff;
-    color: #007bff;
-    height: 36px; 
-    padding: 8px 16px; 
-    font-size: 12px; 
+    width: 80%;
+    margin: 0 auto;
+    background-color: #e74c3c;
+    border: 2px solid #e74c3c;
+    
+    color: white;
+    padding: 8px;
+    font-size: 12px;
     font-weight: 500;
     border-radius: 8px;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     cursor: pointer;
-    outline: none;
     text-transform: uppercase;
-    margin-left: 8px; 
-    margin-right: 50px;
 }
+
 
 
 @media (max-width: 600px) {
@@ -260,29 +255,43 @@ dialog menu button:hover {
 .transaction-form .cancel-btn:hover {
     background-color: #999;
 }
-
+/*
 #open-modal-btn {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px;
-    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: #007bff; 
+  color: white;
+  font-weight: 500;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  text-align: left;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  user-select: none;
 }
 
 #open-modal-btn:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
+
+#open-modal-btn:focus {
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}
+
+#open-modal-btn img.plus-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+*/
+
 
 .transaction-card button {
     padding: 8px 12px;
@@ -308,4 +317,141 @@ dialog menu button:hover {
 }
 .max{
     width: 100%;
+}
+.nav-link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 10px 16px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    color: inherit;
+}
+
+.nav-link-item:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.nav-label {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+}
+
+
+.nav-link-item.selected {
+    background-color: #007bff;
+}
+
+.nav-link-item.selected .nav-label {
+    color: white;
+}
+
+.nav-link-item.selected .navElement {
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: scale(1.1);
+    opacity: 1;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: #f8fafc;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.main-content {
+  margin-left: 240px;
+  padding: 2rem 1.5rem;
+  box-sizing: border-box;
+}
+.user-profile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  width: 100%;
+  padding: 8px 16px;
+  box-sizing: border-box;
+}
+
+.user-profile-row img#user-pfp {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%; 
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.user-text {
+  flex-grow: 1;
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#user-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1e293b;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+#user-email {
+  font-size: 12px;
+  color: #475569;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.user-profile-row img#extra-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.navElement {
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.85;
+    object-fit: contain;
+}
+.size-6 {
+  width: 40px;
+  height: 40px;
+}
+.navElement.zoom-out {
+  transform: scale(0.0001);
+}
+.nav-header {
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.logoText {
+    border-bottom: 2px solid #e2e8f0;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #4f46e5;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    padding-bottom: 0.75rem;
+    display: inline-block;
 }

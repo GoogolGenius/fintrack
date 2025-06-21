@@ -1,47 +1,56 @@
 html {
-    font-family: inter, Helvetica, sans-serif;
+  font-family: inter, Helvetica, sans-serif;
 }
 
 body {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .dropdown-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .dropdown {
-    background-color: #f0f8ff;
-    border: 1px solid #66aaff;
-    border-radius: 8px;
-    color: #333;
-    cursor: pointer;
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: 500;
-    transition: all 0.3s ease-in-out;
-    min-width: 200px; 
+  background-color: #f0f8ff;
+  border: 1px solid #66aaff;
+  border-radius: 8px;
+  color: #333;
+  cursor: pointer;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  min-width: 200px;
 }
 
 .dropdown:hover,
 .dropdown:focus {
-    border-color: #5c99ff;
-    background-color: #e6f0ff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    outline: none;
+  border-color: #5c99ff;
+  background-color: #e6f0ff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  outline: none;
 }
 
 .chart-container {
-    max-width: 80%; 
-    width: 80%; 
-    margin: 0 auto;
+  max-width: 100%;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
 canvas {
-    width: 100% !important; 
-    height: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+.content {
+  margin-left: 150px;
+  padding: 2rem 1.5rem;
+  box-sizing: border-box;
 }

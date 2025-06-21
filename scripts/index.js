@@ -548,62 +548,63 @@ function sortTransactions(transactions, sortType) {
 }
 function displayTransactionCards(transactions) {
     try {
-        // Handle the container for transaction cards
-        const container = document.getElementById("transaction-container");
-        if (container) {
-            container.innerHTML = ""; // Clear existing cards
+        const table = document.getElementById("transaction-table");
+        const tbody = document.getElementById("transaction-table-body");
+        const noTransactionsMessage = document.getElementById("no-transactions-message");
 
-            if (!transactions || transactions.length === 0) {
-                const noTransactionsMessage = document.getElementById("no-transactions-message");
-                if (noTransactionsMessage) noTransactionsMessage.style.display = "block";
-                return; // No transactions to display
-            }
-
-            const noTransactionsMessage = document.getElementById("no-transactions-message");
-            if (noTransactionsMessage) noTransactionsMessage.style.display = "none";
-
-            // Create transaction cards
-            transactions.forEach((transaction) => {
-                const { transactionId, title, category, amount, date } = transaction;
-
-                const card = document.createElement("div");
-                card.classList.add("transaction-card");
-
-                card.innerHTML = `
-                    <h3>${title}</h3>
-                    <p>Category: ${category}</p>
-                    <p>Amount: $${amount.toFixed(2)}</p>
-                    <p>Date: ${date}</p>
-                    <button class="remove-btn" data-id="${transactionId}">Remove</button>
-                    <button class="update-btn" data-id="${transactionId}">Update</button>
-                `;
-
-                container.appendChild(card);
-            });
-
-            // Attach event listeners for remove and update buttons
-            container.querySelectorAll(".remove-btn").forEach((btn) =>
-                btn.addEventListener("click", (e) => {
-                    const transactionId = e.target.dataset.id;
-                    removeTransaction(transactionId);
-                    fetchTransactions(); // Refresh the list
-                })
-            );
-
-            container.querySelectorAll(".update-btn").forEach((btn) =>
-                btn.addEventListener("click", (e) => {
-                    const transactionId = e.target.dataset.id;
-                    const transaction = transactions.find(
-                        (t) => t.transactionId === transactionId
-                    );
-                    openUpdateModal(transactionId, transaction);
-                })
-            );
+        if (!transactions || transactions.length === 0) {
+            if (noTransactionsMessage) noTransactionsMessage.style.display = "block";
+            if (table) table.style.display = "none";
+            return;
         }
+
+        if (noTransactionsMessage) noTransactionsMessage.style.display = "none";
+        if (table) table.style.display = "table";
+
+        tbody.innerHTML = ""; // Clear previous rows
+
+        transactions.forEach((transaction) => {
+            const { transactionId, title, category, amount, date } = transaction;
+
+            const row = document.createElement("tr");
+
+            const amountClass = amount >= 0 ? 'amount-positive' : 'amount-negative';
+
+row.innerHTML = `
+    <td><h3 class="transaction-title">${title}</h3></td>
+    <td><p class="transaction-text">${category}</p></td>
+    <td><p class="transaction-text ${amountClass}">$${amount.toFixed(2)}</p></td>
+    <td><p class="transaction-text">${date}</p></td>
+    <td><button class="update-btn" data-id="${transactionId}">Update</button></td>
+    <td><button class="remove-btn" data-id="${transactionId}">Remove</button></td>
+`;
+
+
+
+            tbody.appendChild(row);
+        });
+
+        // Attach event listeners
+        tbody.querySelectorAll(".remove-btn").forEach((btn) =>
+            btn.addEventListener("click", (e) => {
+                const transactionId = e.target.dataset.id;
+                removeTransaction(transactionId);
+                fetchTransactions();
+            })
+        );
+
+        tbody.querySelectorAll(".update-btn").forEach((btn) =>
+            btn.addEventListener("click", (e) => {
+                const transactionId = e.target.dataset.id;
+                const transaction = transactions.find((t) => t.transactionId === transactionId);
+                openUpdateModal(transactionId, transaction);
+            })
+        );
     } catch (error) {
-        console.error("Error displaying transaction cards:", error);
+        console.error("Error displaying transaction table:", error);
     }
 
+    // Keep your stats code untouched
     try {
         const balanceValue = document.getElementById("balanceValue");
         const totalIncomeValue = document.getElementById("totalIncome");
@@ -622,13 +623,10 @@ function displayTransactionCards(transactions) {
     
         if (transactions && transactions.length > 0) {
             transactions.forEach((transaction) => {
-                const { amount, category } = transaction;
+                const { amount } = transaction;
                 balance += amount;
-                if (amount > 0) {
-                    totalIncome += amount;
-                } else {
-                    totalExpense += amount;
-                }
+                if (amount > 0) totalIncome += amount;
+                else totalExpense += amount;
                 if (amount > highestTransaction) highestTransaction = amount;
                 if (amount < lowestTransaction) lowestTransaction = amount;
                 numTransactions++; 
@@ -643,10 +641,11 @@ function displayTransactionCards(transactions) {
         lowestTransactionValue.textContent = `$${lowestTransaction.toFixed(2)}`;
         const avgValue = numTransactions > 0 ? balance / numTransactions : 0;
         avgTransactionValue.textContent = `$${avgValue.toFixed(2)}`;        
-    }catch (error) {
+    } catch (error) {
         console.error("Error updating display:", error);
     }
 }
+
 
 
 // Open a modal for updating a transaction
@@ -747,6 +746,25 @@ try{
 }catch{
     console.log("a third error, wow i bet richard wrote this");
 }
+function updateUserProfile(user) {
+  const nameElement = document.getElementById('user-name');
+  const emailElement = document.getElementById('user-email');
+  const pfpElement = document.getElementById('user-pfp');
+
+  if (user) {
+    nameElement.textContent = user.displayName || "User";
+    emailElement.textContent = user.email || "No email";
+    pfpElement.src = user.photoURL || "https://via.placeholder.com/48";
+  } else {
+    nameElement.textContent = "Not signed in";
+    emailElement.textContent = "";
+    pfpElement.src = "https://via.placeholder.com/48";
+  }
+}
+
+onAuthStateChanged(auth, (user) => {
+  updateUserProfile(user);
+});
 
 // Attach functions to the window object for global access
 window.signInWithGoogle = signInWithGoogle;
