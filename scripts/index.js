@@ -27,11 +27,11 @@ let uid;
 let currentSortType = "alphabetical";
 let searchQuery = "";
 let displayedName = "";
-
+let userFinancialData = {};
 onAuthStateChanged(auth, (u) => {
     user = u;
     uid = user ? user.uid : null;
-
+    
     if (u) {
         console.log("User authenticated:", u.uid);
         fetchTransactions();
@@ -1085,7 +1085,260 @@ if (openGoalModalBtn && goalDialog && goalForm) {
     });
 }
 
-// Attach functions to the window object for global access
+const apiKey = "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";
+
+//Set FinBot's tone and give it rules.
+const systemMessage = {
+  role: "system",
+  content:
+    "You are FinBot, a concise and helpful financial assistant for FinTrack.\n\nONLY give financial advice if the user asks for it. If the message is unrelated to finance (e.g., a greeting), respond casually.\n\nRespond in simple, friendly English. Keep responses short unless asked to explain more.\n\nDo not mention financial data unless asked directly.\n\nBe concise.",
+};
+
+// Create modal, and hide it once the page loads.
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('chatModal').style.display = 'none';
+});
+const modal = document.getElementById("chatModal");
+const openBtn = document.getElementById("openModalBtn");
+const closeBtn = document.getElementById("closeModalBtn");
+const chatbox = document.getElementById("chatbox");
+const input = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+const dataToggle = document.getElementById("dataToggle"); 
+
+/**
+ * Combines user data to format it properly to pass it into FinBot.
+ * 
+ * @param {string} uid - The user's unique ID.
+ * @param {string} displayName - The user's display name.
+ * @returns {Promise<Object>} - An object containing name, goals, and transactions.
+ */
+async function buildUserFinancialData(uid, displayName) {
+  // Fetch goals from Firebase.
+  const goalsSnap = await get(ref(db, `users/${uid}/goals`));
+  const transactionsSnap = await get(ref(db, `users/${uid}/transactions`));
+  const goals = goalsSnap.exists() ? Object.values(goalsSnap.val()) : [];
+  const transactions = transactionsSnap.exists() ? Object.values(transactionsSnap.val()) : [];
+
+  // Return everything in a structured object.
+  return {
+    name: displayName,
+    goals,
+    transactions
+  };
+}
+
+//Handles opening the chat modal and loading necessary data
+openBtn.onclick = async () => {
+  if (modal.style.display === "flex") {
+    modal.style.display = "none";
+  } else {
+    userFinancialData = await buildUserFinancialData(uid, user.displayName);
+    modal.style.display = "flex";
+    input.focus();
+    if (chatbox.innerHTML.trim() === "") {
+      appendMessage("FinBot", "Hi! How can I help you today? 😊");
+    }
+  }
+};
+
+// Modal closing logic.
+closeBtn.onclick = () => {
+  modal.style.display = "none";
+};
+window.onclick = (e) => {
+  if (e.target === modal) modal.style.display = "none";
+};
+sendBtn.onclick = sendMessage;
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") sendMessage();
+});
+let isSending = false; 
+
+/**
+ * Sends the user's message to FinBot and appends the bot's response to the chatbox.
+ * 
+ * @returns {Promise<void>}
+ */
+async function sendMessage() {
+  if (isSending) return;
+
+  const userMessage = input.value.trim();
+  if (!userMessage) return; //No empty messages.
+
+  //Format the messages.
+  isSending = true;
+  input.disabled = true;
+  sendBtn.disabled = true;
+  input.value = ""; 
+  appendMessage("You", userMessage); 
+  const typingIndicator = document.createElement("div");
+  typingIndicator.className = "typing";
+  typingIndicator.textContent = "FinBot is thinking...";
+  chatbox.appendChild(typingIndicator);
+  chatbox.scrollTop = chatbox.scrollHeight;
+
+  const messages = [systemMessage];
+
+  //Only include user data if it is allowed.
+  if (dataToggle.checked) {
+    messages.push({
+      role: "user",
+      content: `Here is my financial data:\n\n\`\`\`json\n${JSON.stringify(
+        userFinancialData,
+        null,
+        2
+      )}\n\`\`\``,
+    });
+  }
+  messages.push({ role: "user", content: userMessage });
+
+  try {
+    //Send request to Deepseek R1 model through OpenRouter API.
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "HTTP-Referer": "http://localhost:5500", 
+        "X-Title": "FinTrack Chatbot",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "deepseek/deepseek-r1-0528:free",
+        messages: messages,
+      }),
+    });
+
+    const data = await res.json();
+    typingIndicator.remove();
+
+    if (data.choices && data.choices.length > 0) {
+      const rawReply = data.choices[0].message.content;
+
+      /*
+       Format Text by converting markdown to HTML.
+       (*italic*, **bold**).
+      */
+      const formattedReply = rawReply
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>");
+      const wordRegex = /(<[^>]+>|[^<>\s]+)/g;
+      const words = formattedReply.match(wordRegex);
+      const messageContainer = document.createElement("div");
+      messageContainer.innerHTML = `
+        <div class="chat-message">
+            <img src="../assets/chatbot-icon.png" class="chat-avatar" />
+            <div>
+            <strong>FinBot:</strong><br><div class="bot-message"></div>
+            </div>
+        </div>
+      `;
+      chatbox.appendChild(messageContainer);
+
+      const typingArea = messageContainer.querySelector(".bot-message");
+
+      //Make FinBot type word by word for aesthetics and reenable input once it is done.
+      let index = 0;
+      function typeWordByWord() {
+        if (index < words.length) {
+          typingArea.innerHTML += words[index] + " ";
+          index++;
+          chatbox.scrollTop = chatbox.scrollHeight;
+          setTimeout(typeWordByWord, 40); // 40 ms.
+        } else {
+          isSending = false;
+          input.disabled = false;
+          sendBtn.disabled = false;
+          input.focus();
+        }
+      }
+
+      typeWordByWord();
+    } else {
+      typingIndicator.remove();
+      appendMessage("error", data.error?.message);
+      isSending = false;
+      input.disabled = false;
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  } catch (err) {
+    typingIndicator.remove();
+    appendMessage("error", err.message);
+    isSending = false;
+    input.disabled = false;
+    sendBtn.disabled = false;
+    input.focus();
+  }
+}
+
+/**
+ * Appends a new chat message to the chatbox.
+ * 
+ * @param {string} sender - The name of the sender (e.g., "You" or "FinBot").
+ * @param {string} text - The message content.
+ */
+function appendMessage(sender, text) {
+  const messageDiv = document.createElement("div");
+
+  const isUser = sender === "You";
+
+  //Render the message with their corresponding avatar.
+  const avatarUrl = isUser ? user.photoURL : "../assets/chatbot-icon.png";
+  messageDiv.innerHTML = `
+    <div class="chat-message">
+      <img src="${avatarUrl}" class="chat-avatar" />
+      <div>
+        <strong>${sender}:</strong><br>${text}
+      </div>
+    </div>
+  `;
+
+  chatbox.appendChild(messageDiv);
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+//Initialize tour using Intro.js.
+document.getElementById("start-tour-btn")?.addEventListener("click", () => {
+  introJs()
+    .setOptions({
+      steps: [
+        {
+          intro: "Welcome to FinTrack! Let’s take a quick tour of the app."
+        },
+        {
+          element: document.querySelector('.nav-link-item[href="home.html"]'),
+          intro: "This is your Dashboard where you'll see your balance, totals, and goals."
+        },
+        {
+          element: document.querySelector('#open-modal-btn'),
+          intro: "Click here to add a new transaction — income or expense."
+        },
+        {
+          element: document.querySelector('.nav-link-item[href="summary.html"]'),
+          intro: "See visual breakdowns of your spending and income on the Visualization page."
+        },
+        {
+          element: document.querySelector('.nav-link-item[href="history.html"]'),
+          intro: "Check your full transaction history here. You can filter, sort, and edit past entries."
+        },
+        {
+          element: document.querySelector('#openModalBtn'),
+          intro: "Need help or tips? Use our AI Assistant here to get guidance!"
+        },
+        {
+          intro: "That's it! You’re now ready to track your finances like a pro 🎉"
+        }
+      ],
+      showProgress: true,
+      nextLabel: "Next",
+      prevLabel: "Back",
+      doneLabel: "Finish"
+    })
+    .start();
+});
+
+// Attach functions to the window object for global access.
 window.signInWithGoogle = signInWithGoogle;
 window.signOut = signOut;
 window.addTransaction = addTransaction;

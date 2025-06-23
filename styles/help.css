@@ -84,3 +84,47 @@ body {
         transform: translateY(0);
     }
 }
+.help-header {
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.help-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.75rem;
+    color: #1f2937;
+}
+
+.help-header p {
+    margin: 0.25rem 0;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.tour-btn {
+  width: 100%;
+  background-color: #3b82f6; 
+  color: white;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+.tour-btn:hover {
+  background-color: #2563eb; 
+  transform: translateY(-2px);
+}
+
+.tour-btn:active {
+  background-color: #1d4ed8; 
+  transform: translateY(0);
+}

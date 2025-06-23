@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="../styles/help.css" />
         <link rel="stylesheet" href="../styles/nav.css" />
+        <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+        <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+
         <title>Help</title>
     </head>
     <body>
@@ -61,27 +64,39 @@
 
             </div>
         </div>
-
+        
         <div class="main-content">
+            <div class="help-header">
+                <h2>Help Center</h2>
+                <p>
+                    FinTrack is your personal financial tracking tool. You can track income and expenses, set savings goals, view interactive charts, and manage your transaction history all in one place. With intuitive features and real-time insights, staying on top of your finances has never been easier.
+                </p>
+                <p>
+                    Still have questions? Use our AI assistant to get quick, personalized help with anything related to FinTrack.
+                </p>
+                <button id="start-tour-btn" class="tour-btn">Start Guided Tour</button>
+            </div>
+
             <div class="faq-container">
+                
                 <div class="faq-item">
-                    <button class="faq-question">Can I categorize my transactions?</button>
+                    <button class="faq-question">How can I categorize my transactions?</button>
                     <div class="faq-answer">
-                        <p>Yes! When adding a transaction, you can assign it to a category like Food, Transportation, or Income. This helps organize your finances and improve visualizations.</p>
+                        <p>When adding a transaction, you can assign it to a category like Food, Transportation, or Income. This helps organize your finances and improve visualizations.</p>
                     </div>
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question">Does FinTrack generate charts or graphs?</button>
+                    <button class="faq-question">How does FinTrack generate charts or graphs?</button>
                     <div class="faq-answer">
-                        <p>Yes, FinTrack includes a Visualization page with interactive bar and pie charts that break down your income and expenses by category and time period.</p>
+                        <p>FinTrack includes a Visualization page with interactive bar and pie charts that break down your transactions by category and time period.</p>
                     </div>
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question">Can I view my transaction history?</button>
+                    <button class="faq-question">How can I view my transaction history?</button>
                     <div class="faq-answer">
-                        <p>Absolutely. The History tab lets you view, search, and sort your past transactions. You can filter by category, date, and amount.</p>
+                        <p>The History tab lets you view, search, and sort your past transactions. You can filter by category, date, and amount.</p>
                     </div>
                 </div>
 
@@ -93,26 +108,47 @@
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question">Can I track both income and expenses?</button>
+                    <button class="faq-question">How can I track both income and expenses?</button>
                     <div class="faq-answer">
-                        <p>Yes. FinTrack lets you add both income and expense transactions, making it easy to monitor your cash flow and budgeting.</p>
+                        <p>FinTrack lets you add both income and expense transactions, making it easy to monitor your cash flow and budgeting.</p>
                     </div>
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question">Can I export my data?</button>
+                    <button class="faq-question">How can I export my data?</button>
                     <div class="faq-answer">
                         <p>Exporting to CSV and JSON is supported. You can download your transaction history to use in spreadsheets or for backup purposes.</p>
                     </div>
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question">Is my data secure?</button>
+                    <button class="faq-question">How is my data secured?</button>
                     <div class="faq-answer">
                         <p>We prioritize your privacy. FinTrack stores your data securely and does not share it with third parties. All transactions are encrypted and tied to your account only.</p>
                     </div>
                 </div>
 
+                <div class="faq-item">
+                    <button class="faq-question">How can I set savings goals?</button>
+                    <div class="faq-answer">
+                        <p>FinTrack allows you to add and manage savings goals. Set a target amount and date, then track your progress over time directly from your dashboard.</p>
+                    </div>
+                </div>
+            </div>
+            <button id="openModalBtn" class="floating-chat-button" aria-label="Open chat">
+                <img src="../assets/message-square.svg" alt="Chat" />
+            </button>
+            <div id="chatModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+                <div class="modal-content">
+                <span class="close" id="closeModalBtn" role="button" aria-label="Close chat">&times;</span>
+                <h2>FinTrack Financial Assistant</h2>
+                <div id="chatbox"></div>
+                <div class="input-area">
+                    <input type="text" id="userInput" placeholder="Type your message..." aria-label="Message input" autocomplete="off" />
+                    <button id="sendBtn">Send</button>
+                </div>
+                <label><input type="checkbox" id="dataToggle" checked /> Personalized Recommendations</label>
+                </div>
             </div>
         </div>
     </body>

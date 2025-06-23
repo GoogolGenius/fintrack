@@ -14,7 +14,7 @@ html, body {
     width: 240px;
     background-color: #ffffff;
     box-shadow: 6px 0 12px rgba(0, 0, 0, 0.05);
-    z-index: 1000;
+    z-index: 10;
     border-right: 1px solid #e0e0e0;
     display: flex;
     flex-direction: column;
@@ -255,43 +255,6 @@ dialog menu button:hover {
 .transaction-form .cancel-btn:hover {
     background-color: #999;
 }
-/*
-#open-modal-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  width: 100%;
-  box-sizing: border-box;
-  border-radius: 8px;
-  background-color: #007bff; 
-  color: white;
-  font-weight: 500;
-  font-size: 18px;
-  cursor: pointer;
-  border: none;
-  text-align: left;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  user-select: none;
-}
-
-#open-modal-btn:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-#open-modal-btn:focus {
-  outline: 2px solid #0056b3;
-  outline-offset: 2px;
-}
-
-#open-modal-btn img.plus-icon {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-*/
-
 
 .transaction-card button {
     padding: 8px 12px;
@@ -454,4 +417,183 @@ body {
     transition: color 0.2s ease;
     padding-bottom: 0.75rem;
     display: inline-block;
+}
+.modal-content {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 20px;
+  border-radius: 20px;
+  width: 85%;
+  max-width: 500px;
+  height: 70vh;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close:hover {
+  color: #000;
+}
+
+#chatbox {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #1e293b;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+#chatbox::-webkit-scrollbar {
+  width: 8px;
+}
+#chatbox::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 10px;
+}
+
+#chatbox div {
+  margin-bottom: 12px;
+}
+#chatbox div strong {
+  display: block;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+
+#userInput {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 9999px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  outline: none;
+  margin-right: 10px;
+}
+
+.modal-content > .input-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#sendBtn {
+  padding: 12px 16px;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#sendBtn:hover {
+  background-color: #2563eb;
+}
+
+.floating-chat-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.floating-chat-button img {
+  width: 28px;
+  height: 28px;
+  filter: invert(1);
+}
+.floating-chat-button:hover {
+  background-color: #2563eb;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  overflow: hidden;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 0rem;
+}
+
+.chat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 0.3rem; 
+}
+
+.chat-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-top: 2px; 
+}
+
+.chat-message > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+  padding: 0;
+  margin: 0;
 }

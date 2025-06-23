@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="../styles//nav.css" />
         <link rel="stylesheet" href="../styles//home.css" />
+        <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+        <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+
         <title>Home</title>
     </head>
     <body>
@@ -99,6 +102,21 @@
   </div>
 </div>
 
+<button id="openModalBtn" class="floating-chat-button" aria-label="Open chat">
+    <img src="../assets/message-square.svg" alt="Chat" />
+</button>
+<div id="chatModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-content">
+    <span class="close" id="closeModalBtn" role="button" aria-label="Close chat">&times;</span>
+    <h2>FinTrack Financial Assistant</h2>
+    <div id="chatbox"></div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type your message..." aria-label="Message input" autocomplete="off" />
+        <button id="sendBtn">Send</button>
+    </div>
+    <label><input type="checkbox" id="dataToggle" checked /> Personalized Recommendations</label>
+    </div>
+</div>
 </body>
 <dialog id="transaction-dialog">
     <form method="dialog" class="transaction-form" id="transaction-form">

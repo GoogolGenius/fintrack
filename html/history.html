@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="../styles/nav.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
@@ -162,7 +165,21 @@
         </div>
       </div>
     </div>
-
+    <button id="openModalBtn" class="floating-chat-button" aria-label="Open chat">
+        <img src="../assets/message-square.svg" alt="Chat" />
+    </button>
+    <div id="chatModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal-content">
+        <span class="close" id="closeModalBtn" role="button" aria-label="Close chat">&times;</span>
+        <h2>FinTrack Financial Assistant</h2>
+        <div id="chatbox"></div>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Type your message..." aria-label="Message input" autocomplete="off" />
+            <button id="sendBtn">Send</button>
+        </div>
+        <label><input type="checkbox" id="dataToggle" checked /> Personalized Recommendations</label>
+        </div>
+    </div>
     <script src="../scripts/index.js" type="module"></script>
   </body>
 </html>
