@@ -21,7 +21,13 @@ import { firebaseConfig } from "../config/firebase.js";
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
-
+const modal = document.getElementById("chatModal");
+const openBtn = document.getElementById("openModalBtn");
+const closeBtn = document.getElementById("closeModalBtn");
+const chatbox = document.getElementById("chatbox");
+const input = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+const dataToggle = document.getElementById("dataToggle");
 let user;
 let uid;
 let currentSortType = "alphabetical";
@@ -743,18 +749,76 @@ try{
     console.log("a third error, wow i bet richard wrote this");
 }
 function updateUserProfile(user) {
-  const nameElement = document.getElementById('user-name');
-  const emailElement = document.getElementById('user-email');
-  const pfpElement = document.getElementById('user-pfp');
+  try {
+    // Safely get all elements with null checks
+    const nameElement = document.getElementById('user-name');
+    const emailElement = document.getElementById('user-email');
+    const pfpElement = document.getElementById('user-pfp');
 
-  if (user) {
-    nameElement.textContent = user.displayName || "User";
-    emailElement.textContent = user.email || "No email";
-    pfpElement.src = user.photoURL || "";
-  } else {
-    nameElement.textContent = "Not signed in";
-    emailElement.textContent = "";
-    pfpElement.src = "";
+    // Verify elements exist before proceeding
+    if (!nameElement || !emailElement || !pfpElement) {
+      const missingElements = [];
+      if (!nameElement) missingElements.push('user-name');
+      if (!emailElement) missingElements.push('user-email');
+      if (!pfpElement) missingElements.push('user-pfp');
+      console.warn(`Profile elements missing: ${missingElements.join(', ')}`);
+      return;
+    }
+
+    try {
+      if (user) {
+        // Update profile for signed-in user
+        try {
+          nameElement.textContent = user.displayName || "User";
+        } catch (nameError) {
+          console.error("Failed to update name:", nameError);
+        }
+
+        try {
+          emailElement.textContent = user.email || "No email";
+        } catch (emailError) {
+          console.error("Failed to update email:", emailError);
+        }
+
+        try {
+          // Handle profile picture with fallbacks
+          const photoURL = user.photoURL || "";
+          if (photoURL && pfpElement.tagName === 'IMG') {
+            pfpElement.src = photoURL;
+            pfpElement.onerror = () => {
+              pfpElement.src = ""; // Clear if image fails to load
+            };
+          } else {
+            pfpElement.src = "";
+          }
+        } catch (pfpError) {
+          console.error("Failed to update profile picture:", pfpError);
+        }
+      } else {
+        // Handle signed-out state
+        try {
+          nameElement.textContent = "Not signed in";
+        } catch (nameError) {
+          console.error("Failed to reset name:", nameError);
+        }
+
+        try {
+          emailElement.textContent = "";
+        } catch (emailError) {
+          console.error("Failed to reset email:", emailError);
+        }
+
+        try {
+          pfpElement.src = "";
+        } catch (pfpError) {
+          console.error("Failed to reset profile picture:", pfpError);
+        }
+      }
+    } catch (profileError) {
+      console.error("Error updating user profile:", profileError);
+    }
+  } catch (error) {
+    console.error("Unexpected error in profile update:", error);
   }
 }
 
@@ -774,107 +838,209 @@ document.querySelectorAll('.faq-question').forEach(button => {
 });
 
 function downloadCSVFromTransactions(transactions, filename = "fintrack_data.csv") {
-    if (!transactions || transactions.length === 0) {
-        alert("No transactions to download.");
-        return;
+    try {
+        if (!transactions || transactions.length === 0) {
+            alert("No transactions to download.");
+            return;
+        }
+
+        try {
+            const headers = Object.keys(transactions[0]);
+            const csvRows = [headers.join(",")];
+
+            transactions.forEach(txn => {
+                try {
+                    const values = headers.map(header => `"${(txn[header] || "").toString().replace(/"/g, '""')}"`);
+                    csvRows.push(values.join(","));
+                } catch (mapError) {
+                    console.error("Error mapping transaction data:", mapError);
+                    throw new Error("Failed to process transaction data");
+                }
+            });
+
+            try {
+                const csvContent = csvRows.join("\n");
+                const blob = new Blob([csvContent], { type: "text/csv" });
+                const url = URL.createObjectURL(blob);
+
+                try {
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = filename;
+                    a.click();
+
+                    // Clean up after a small delay to ensure download starts
+                    setTimeout(() => {
+                        try {
+                            URL.revokeObjectURL(url);
+                        } catch (revokeError) {
+                            console.error("Error revoking object URL:", revokeError);
+                        }
+                    }, 100);
+                } catch (downloadError) {
+                    console.error("Error triggering download:", downloadError);
+                    throw new Error("Failed to initiate download");
+                }
+            } catch (blobError) {
+                console.error("Error creating CSV blob:", blobError);
+                throw new Error("Failed to create downloadable file");
+            }
+        } catch (csvError) {
+            console.error("Error generating CSV:", csvError);
+            throw new Error("Failed to generate CSV data");
+        }
+    } catch (error) {
+        console.error("Error in CSV download process:", error);
+        alert("Failed to download CSV. Please try again.");
     }
-
-    const headers = Object.keys(transactions[0]);
-    const csvRows = [headers.join(",")];
-
-    transactions.forEach(txn => {
-        const values = headers.map(header => `"${(txn[header] || "").toString().replace(/"/g, '""')}"`);
-        csvRows.push(values.join(","));
-    });
-
-    const csvContent = csvRows.join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
-
-    URL.revokeObjectURL(url);
 }
+
 function downloadJSONFromTransactions(transactions, filename = "fintrack_data.json") {
-    if (!transactions || transactions.length === 0) {
-        alert("No transactions to download.");
-        return;
+    try {
+        if (!transactions || transactions.length === 0) {
+            alert("No transactions to download.");
+            return;
+        }
+
+        try {
+            const jsonContent = JSON.stringify(transactions, null, 2);
+            const blob = new Blob([jsonContent], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+
+            try {
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = filename;
+                a.click();
+
+                // Clean up after a small delay
+                setTimeout(() => {
+                    try {
+                        URL.revokeObjectURL(url);
+                    } catch (revokeError) {
+                        console.error("Error revoking object URL:", revokeError);
+                    }
+                }, 100);
+            } catch (downloadError) {
+                console.error("Error triggering download:", downloadError);
+                throw new Error("Failed to initiate download");
+            }
+        } catch (jsonError) {
+            console.error("Error generating JSON:", jsonError);
+            throw new Error("Failed to generate JSON data");
+        }
+    } catch (error) {
+        console.error("Error in JSON download process:", error);
+        alert("Failed to download JSON. Please try again.");
     }
-
-    const jsonContent = JSON.stringify(transactions, null, 2);
-    const blob = new Blob([jsonContent], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
-
-    URL.revokeObjectURL(url);
-}
-try {
-    document.getElementById("download-data-btn").addEventListener("click", () => {
-        if (!user) {
-            alert("Please sign in to download your data.");
-            return;
-        }
-
-        const userTransactionsRef = ref(db, `users/${uid}/transactions`);
-        get(userTransactionsRef)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const transactions = Object.entries(snapshot.val()).map(
-                        ([transactionId, transaction]) => ({
-                            transactionId,
-                            ...transaction,
-                        })
-                    );
-                    downloadCSVFromTransactions(transactions);
-                } else {
-                    alert("No transactions found to download.");
-                }
-            })
-            .catch((error) => {
-                console.error("Error downloading transactions:", error);
-                alert("Failed to download data. Please try again.");
-            });
-    });
-} catch (error) {
-    console.error("Download button error:", error);
 }
 
 try {
-    document.getElementById("download-json-btn").addEventListener("click", () => {
-        if (!user) {
-            alert("Please sign in to download your data.");
-            return;
-        }
-
-        const userTransactionsRef = ref(db, `users/${uid}/transactions`);
-        get(userTransactionsRef)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const transactions = Object.entries(snapshot.val()).map(
-                        ([transactionId, transaction]) => ({
-                            transactionId,
-                            ...transaction,
-                        })
-                    );
-                    downloadJSONFromTransactions(transactions);
-                } else {
-                    alert("No transactions found to download.");
+    const downloadBtn = document.getElementById("download-data-btn");
+    if (downloadBtn) {
+        downloadBtn.addEventListener("click", () => {
+            try {
+                if (!user) {
+                    alert("Please sign in to download your data.");
+                    return;
                 }
-            })
-            .catch((error) => {
-                console.error("Error downloading transactions as JSON:", error);
-                alert("Failed to download JSON. Please try again.");
-            });
-    });
+
+                try {
+                    const userTransactionsRef = ref(db, `users/${uid}/transactions`);
+                    get(userTransactionsRef)
+                        .then((snapshot) => {
+                            try {
+                                if (snapshot.exists()) {
+                                    try {
+                                        const transactions = Object.entries(snapshot.val()).map(
+                                            ([transactionId, transaction]) => ({
+                                                transactionId,
+                                                ...transaction,
+                                            })
+                                        );
+                                        downloadCSVFromTransactions(transactions);
+                                    } catch (processError) {
+                                        console.error("Error processing transactions:", processError);
+                                        alert("Error preparing your data for download.");
+                                    }
+                                } else {
+                                    alert("No transactions found to download.");
+                                }
+                            } catch (snapshotError) {
+                                console.error("Error handling snapshot:", snapshotError);
+                                alert("Error reading your transaction data.");
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Database error:", error);
+                            alert("Failed to access your data. Please try again.");
+                        });
+                } catch (refError) {
+                    console.error("Error creating database reference:", refError);
+                    alert("System error. Please refresh the page and try again.");
+                }
+            } catch (eventError) {
+                console.error("Error in download handler:", eventError);
+                alert("An unexpected error occurred. Please try again.");
+            }
+        });
+    }
 } catch (error) {
-    console.error("Download JSON button error:", error);
+    console.error("Download button initialization error:", error);
+}
+
+try {
+    const downloadJsonBtn = document.getElementById("download-json-btn");
+    if (downloadJsonBtn) {
+        downloadJsonBtn.addEventListener("click", () => {
+            try {
+                if (!user) {
+                    alert("Please sign in to download your data.");
+                    return;
+                }
+
+                try {
+                    const userTransactionsRef = ref(db, `users/${uid}/transactions`);
+                    get(userTransactionsRef)
+                        .then((snapshot) => {
+                            try {
+                                if (snapshot.exists()) {
+                                    try {
+                                        const transactions = Object.entries(snapshot.val()).map(
+                                            ([transactionId, transaction]) => ({
+                                                transactionId,
+                                                ...transaction,
+                                            })
+                                        );
+                                        downloadJSONFromTransactions(transactions);
+                                    } catch (processError) {
+                                        console.error("Error processing transactions:", processError);
+                                        alert("Error preparing your data for download.");
+                                    }
+                                } else {
+                                    alert("No transactions found to download.");
+                                }
+                            } catch (snapshotError) {
+                                console.error("Error handling snapshot:", snapshotError);
+                                alert("Error reading your transaction data.");
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Database error:", error);
+                            alert("Failed to access your data. Please try again.");
+                        });
+                } catch (refError) {
+                    console.error("Error creating database reference:", refError);
+                    alert("System error. Please refresh the page and try again.");
+                }
+            } catch (eventError) {
+                console.error("Error in JSON download handler:", eventError);
+                alert("An unexpected error occurred. Please try again.");
+            }
+        });
+    }
+} catch (error) {
+    console.error("JSON download button initialization error:", error);
 }
 
 function addGoal(goal) {
@@ -1095,16 +1261,93 @@ const systemMessage = {
 };
 
 // Create modal, and hide it once the page loads.
-document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('chatModal').style.display = 'none';
-});
-const modal = document.getElementById("chatModal");
-const openBtn = document.getElementById("openModalBtn");
-const closeBtn = document.getElementById("closeModalBtn");
-const chatbox = document.getElementById("chatbox");
-const input = document.getElementById("userInput");
-const sendBtn = document.getElementById("sendBtn");
-const dataToggle = document.getElementById("dataToggle"); 
+// Safe initialization with comprehensive error handling
+function initializeChatModal() {
+  try {
+    // First try to hide the modal if it exists
+    try {
+      if (modal) {
+        modal.style.display = 'none';
+      } else {
+        console.warn('Chat modal not found during initial hide attempt');
+      }
+    } catch (hideError) {
+      console.error('Failed to initially hide modal:', hideError);
+    }
+
+    // Only proceed if essential elements exist
+    if (modal && openBtn) {
+      // Set up open button handler
+      openBtn.onclick = async () => {
+        try {
+          if (modal.style.display === "flex") {
+            modal.style.display = "none";
+          } else {
+            modal.style.display = "flex";
+            if (input) input.focus();
+          }
+        } catch (toggleError) {
+          console.error('Error toggling modal:', toggleError);
+        }
+      };
+
+      // Set up close button if exists
+      if (closeBtn) {
+        closeBtn.onclick = () => {
+          try {
+            if (modal) modal.style.display = "none";
+          } catch (closeError) {
+            console.error('Error closing modal:', closeError);
+          }
+        };
+      }
+
+      // Set up outside click handler
+      document.addEventListener('click', (e) => {
+        try {
+          if (modal && e.target === modal) {
+            modal.style.display = "none";
+          }
+        } catch (clickError) {
+          console.error('Error handling outside click:', clickError);
+        }
+      });
+
+      // Initialize chat functionality if components exist
+      if (input && sendBtn && chatbox) {
+        try {
+          sendBtn.onclick = () => {
+            try {
+              if (typeof sendMessage === 'function') sendMessage();
+            } catch (sendError) {
+              console.error('Error in send handler:', sendError);
+            }
+          };
+
+          input.addEventListener("keydown", (e) => {
+            try {
+              if (e.key === "Enter" && typeof sendMessage === 'function') {
+                sendMessage();
+              }
+            } catch (keyError) {
+              console.error('Error in key handler:', keyError);
+            }
+          });
+        } catch (initError) {
+          console.error('Error initializing chat controls:', initError);
+        }
+      }
+    }
+  } catch (globalError) {
+    console.error('Failed to initialize chat modal system:', globalError);
+  }
+}
+
+// Run initialization when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeChatModal);
+} else {
+  initializeChatModal();}
 
 /**
  * Combines user data to format it properly to pass it into FinBot.
@@ -1129,31 +1372,158 @@ async function buildUserFinancialData(uid, displayName) {
 }
 
 //Handles opening the chat modal and loading necessary data
-openBtn.onclick = async () => {
-  if (modal.style.display === "flex") {
-    modal.style.display = "none";
-  } else {
-    userFinancialData = await buildUserFinancialData(uid, user.displayName);
-    modal.style.display = "flex";
-    input.focus();
-    if (chatbox.innerHTML.trim() === "") {
-      appendMessage("FinBot", "Hi! How can I help you today? 😊");
-    }
-  }
-};
+// First check if the element exists
 
-// Modal closing logic.
-closeBtn.onclick = () => {
-  modal.style.display = "none";
-};
-window.onclick = (e) => {
-  if (e.target === modal) modal.style.display = "none";
-};
-sendBtn.onclick = sendMessage;
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") sendMessage();
-});
+
+if (openBtn) {
+    openBtn.onclick = async () => {
+        try {
+            if (!modal) {
+                console.error("Chat modal element not found");
+                alert("Chat feature is currently unavailable.");
+                return;
+            }
+
+            if (modal.style.display === "flex") {
+                try {
+                    modal.style.display = "none";
+                } catch (error) {
+                    console.error("Error hiding modal:", error);
+                }
+                return;
+            }
+
+            if (!user || !uid) {
+                alert("Please sign in to use the chat feature.");
+                return;
+            }
+
+            try {
+                userFinancialData = await buildUserFinancialData(uid, user.displayName);
+                modal.style.display = "flex";
+                
+                try {
+                    if (input) input.focus();
+                } catch (focusError) {
+                    console.error("Error focusing input:", focusError);
+                }
+
+                try {
+                    if (chatbox && chatbox.innerHTML.trim() === "") {
+                        appendMessage("FinBot", "Hi! How can I help you today? 😊");
+                    }
+                } catch (messageError) {
+                    console.error("Error displaying welcome message:", messageError);
+                }
+            } catch (dataError) {
+                console.error("Error loading financial data:", dataError);
+                modal.style.display = "flex";
+                appendMessage("FinBot", "I'm having trouble accessing your data, but you can still ask general questions.");
+                userFinancialData = { 
+                    name: user?.displayName || "User",
+                    goals: [],
+                    transactions: [] 
+                };
+            }
+        } catch (error) {
+            console.error("Unexpected error in chat modal toggle:", error);
+            alert("Something went wrong. Please refresh the page and try again.");
+            try { if (modal) modal.style.display = "none"; } catch {}
+        }
+    };
+} else {
+    console.warn("Chat open button not found - chat feature disabled");
+    // Optionally hide chat-related UI elements if the button is missing
+    try {
+        const chatFeatureElements = document.querySelectorAll(".chat-feature");
+        chatFeatureElements.forEach(el => el.style.display = "none");
+    } catch {}
+}
 let isSending = false; 
+// Modal closing logic.
+// Safely handle close button click
+if (closeBtn) {
+    closeBtn.onclick = () => {
+        try {
+            if (modal) {
+                modal.style.display = "none";
+            } else {
+                console.warn("Modal element not found when trying to close");
+            }
+        } catch (error) {
+            console.error("Error while closing modal via button:", error);
+        }
+    };
+} else {
+    console.warn("Close button not found - modal close functionality may be limited");
+}
+
+// Safely handle outside click to close
+if (modal) {
+    window.onclick = (e) => {
+        try {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        } catch (error) {
+            console.error("Error handling outside click to close modal:", error);
+        }
+    };
+} else {
+    console.warn("Modal element not found - outside click close disabled");
+}
+// Safely set up send functionality
+try {
+    // Check if send button exists
+    if (sendBtn) {
+        sendBtn.onclick = () => {
+            try {
+                if (typeof sendMessage === 'function') {
+                    sendMessage();
+                } else {
+                    console.error('sendMessage function not defined');
+                }
+            } catch (error) {
+                console.error('Error in send button handler:', error);
+            }
+        };
+    } else {
+        console.warn('Send button not found in DOM');
+    }
+
+    // Check if input exists
+    if (input) {
+        input.addEventListener("keydown", (e) => {
+            try {
+                if (e.key === "Enter") {
+                    try {
+                        if (typeof sendMessage === 'function') {
+                            sendMessage();
+                        } else {
+                            console.error('sendMessage function not defined');
+                        }
+                    } catch (error) {
+                        console.error('Error processing Enter key:', error);
+                    }
+                }
+            } catch (eventError) {
+                console.error('Error in keydown handler:', eventError);
+            }
+        });
+    } else {
+        console.warn('Chat input not found in DOM');
+    }
+
+} catch (setupError) {
+    console.error('Error setting up send handlers:', setupError);
+}
+
+// Ensure isSending flag exists
+if (typeof isSending === 'undefined') {
+    let isSending = false;
+    console.warn('isSending flag was not defined - initialized to false');
+}
+
 
 /**
  * Sends the user's message to FinBot and appends the bot's response to the chatbox.
@@ -1279,27 +1649,43 @@ async function sendMessage() {
  * @param {string} text - The message content.
  */
 function appendMessage(sender, text) {
-  const messageDiv = document.createElement("div");
+  try {
+    const messageDiv = document.createElement("div");
 
-  const isUser = sender === "You";
+    try {
+      const isUser = sender === "You";
+      const avatarUrl = isUser ? user.photoURL : "../assets/chatbot-icon.png";
+      
+      messageDiv.innerHTML = `
+        <div class="chat-message">
+          <img src="${avatarUrl}" class="chat-avatar" />
+          <div>
+            <strong>${sender}:</strong><br>${text}
+          </div>
+        </div>
+      `;
+    } catch (error) {
+      console.error("Error creating message content:", error);
+      // Fallback to simple text if HTML fails
+      messageDiv.textContent = `${sender}: ${text}`;
+    }
 
-  //Render the message with their corresponding avatar.
-  const avatarUrl = isUser ? user.photoURL : "../assets/chatbot-icon.png";
-  messageDiv.innerHTML = `
-    <div class="chat-message">
-      <img src="${avatarUrl}" class="chat-avatar" />
-      <div>
-        <strong>${sender}:</strong><br>${text}
-      </div>
-    </div>
-  `;
-
-  chatbox.appendChild(messageDiv);
-  chatbox.scrollTop = chatbox.scrollHeight;
+    try {
+      chatbox.appendChild(messageDiv);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    } catch (error) {
+      console.error("Error appending message to chatbox:", error);
+    }
+    
+  } catch (error) {
+    console.error("General error in appendMessage:", error);
+  }
 }
 
 //Initialize tour using Intro.js.
-document.getElementById("start-tour-btn")?.addEventListener("click", () => {
+try{
+document.getElementById("start-tour-btn").addEventListener("click", () => {
+    try{
   introJs()
     .setOptions({
       steps: [
@@ -1336,7 +1722,13 @@ document.getElementById("start-tour-btn")?.addEventListener("click", () => {
       doneLabel: "Finish"
     })
     .start();
+}catch{
+    console.log("Tour had an error!");
+}
 });
+}catch{
+    console.log("Tour did not load!");
+}
 
 // Attach functions to the window object for global access.
 window.signInWithGoogle = signInWithGoogle;
