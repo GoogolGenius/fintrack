@@ -11,7 +11,9 @@ A financial web application built using HTML, CSS, JavaScript, React, and Fireba
 - **Real-time Database**: Store and retrieve transaction data in real-time using Firebase.
 - **Responsive Design**: Mobile-friendly design that works seamlessly on any device.
 - **Easy Summarization**: Easily view numerical summarizations via the dashboard.
-  
+- **Interactive Tour**: Get guided through the application using **Intro.js**, making it easy for new users to get started.
+- **FinBot – AI Assistant**: Powered by **DeepSeek R1** through **OpenRouter**, FinBot helps answer questions about your finances and usage within the app.
+
 ## Technology Used
 
 - **HTML/CSS**: For structuring and styling the web application's front end.
@@ -19,7 +21,10 @@ A financial web application built using HTML, CSS, JavaScript, React, and Fireba
 - **React**: A powerful JavaScript library for building user interfaces. Used to create reusable UI components.
 - **Firebase**: A comprehensive app development platform that provides backend services such as:
   - **Firebase Authentication**: For user authentication and authorization.
+  - **Firebase Realtime Database**: For storing and managing user transaction data.
 - **Chart.js**: A JavaScript library used to create beautiful and responsive charts for data visualization.
+- **Intro.js**: A JavaScript library that provides step-by-step interactive product tours.
+- **OpenRouter + DeepSeek R1**: Used to power FinBot, the AI assistant integrated into the app for dynamic support and guidance.
 
 ## Getting Started
 
@@ -38,7 +43,7 @@ Clone the repository:
 ```sh
 git clone https://github.com/GoogolGenius/FBLA-Coding-Programming-24-25.git
 cd FBLA-Coding-Programming-24-25
-```
+
 
 Install the dependencies:
 
@@ -61,6 +66,7 @@ Open your browser and navigate to `http://localhost:3000` to see the application
 - Create an account to start managing your financial transactions.
 - Use the dashboard to view and visualize your transaction history.
 - Explore different charts and summaries to gain insights into your financial data.
+- Launch the interactive tour for an easy walkthrough of all features.
 
 ## Contributing
 
