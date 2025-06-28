@@ -1261,10 +1261,8 @@ const systemMessage = {
 };
 
 // Create modal, and hide it once the page loads.
-// Safe initialization with comprehensive error handling
 function initializeChatModal() {
   try {
-    // First try to hide the modal if it exists
     try {
       if (modal) {
         modal.style.display = 'none';
@@ -1274,10 +1272,7 @@ function initializeChatModal() {
     } catch (hideError) {
       console.error('Failed to initially hide modal:', hideError);
     }
-
-    // Only proceed if essential elements exist
     if (modal && openBtn) {
-      // Set up open button handler
       openBtn.onclick = async () => {
         try {
           if (modal.style.display === "flex") {
@@ -1291,7 +1286,7 @@ function initializeChatModal() {
         }
       };
 
-      // Set up close button if exists
+      //Set up buttons.
       if (closeBtn) {
         closeBtn.onclick = () => {
           try {
@@ -1301,8 +1296,6 @@ function initializeChatModal() {
           }
         };
       }
-
-      // Set up outside click handler
       document.addEventListener('click', (e) => {
         try {
           if (modal && e.target === modal) {
@@ -1313,7 +1306,7 @@ function initializeChatModal() {
         }
       });
 
-      // Initialize chat functionality if components exist
+      //Initialize chat functionality.
       if (input && sendBtn && chatbox) {
         try {
           sendBtn.onclick = () => {
@@ -1343,7 +1336,6 @@ function initializeChatModal() {
   }
 }
 
-// Run initialization when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initializeChatModal);
 } else {
@@ -1362,19 +1354,13 @@ async function buildUserFinancialData(uid, displayName) {
   const transactionsSnap = await get(ref(db, `users/${uid}/transactions`));
   const goals = goalsSnap.exists() ? Object.values(goalsSnap.val()) : [];
   const transactions = transactionsSnap.exists() ? Object.values(transactionsSnap.val()) : [];
-
-  // Return everything in a structured object.
   return {
     name: displayName,
     goals,
     transactions
   };
 }
-
-//Handles opening the chat modal and loading necessary data
-// First check if the element exists
-
-
+//Validate that everything is working.
 if (openBtn) {
     openBtn.onclick = async () => {
         try {
@@ -1383,7 +1369,6 @@ if (openBtn) {
                 alert("Chat feature is currently unavailable.");
                 return;
             }
-
             if (modal.style.display === "flex") {
                 try {
                     modal.style.display = "none";
@@ -1392,22 +1377,18 @@ if (openBtn) {
                 }
                 return;
             }
-
             if (!user || !uid) {
                 alert("Please sign in to use the chat feature.");
                 return;
             }
-
             try {
                 userFinancialData = await buildUserFinancialData(uid, user.displayName);
                 modal.style.display = "flex";
-                
                 try {
                     if (input) input.focus();
                 } catch (focusError) {
                     console.error("Error focusing input:", focusError);
                 }
-
                 try {
                     if (chatbox && chatbox.innerHTML.trim() === "") {
                         appendMessage("FinBot", "Hi! How can I help you today? 😊");
@@ -1433,7 +1414,6 @@ if (openBtn) {
     };
 } else {
     console.warn("Chat open button not found - chat feature disabled");
-    // Optionally hide chat-related UI elements if the button is missing
     try {
         const chatFeatureElements = document.querySelectorAll(".chat-feature");
         chatFeatureElements.forEach(el => el.style.display = "none");
@@ -1441,7 +1421,6 @@ if (openBtn) {
 }
 let isSending = false; 
 // Modal closing logic.
-// Safely handle close button click
 if (closeBtn) {
     closeBtn.onclick = () => {
         try {
@@ -1458,7 +1437,7 @@ if (closeBtn) {
     console.warn("Close button not found - modal close functionality may be limited");
 }
 
-// Safely handle outside click to close
+//Make sure the modal closes when they click outside.
 if (modal) {
     window.onclick = (e) => {
         try {
@@ -1666,7 +1645,6 @@ function appendMessage(sender, text) {
       `;
     } catch (error) {
       console.error("Error creating message content:", error);
-      // Fallback to simple text if HTML fails
       messageDiv.textContent = `${sender}: ${text}`;
     }
 
@@ -1676,7 +1654,6 @@ function appendMessage(sender, text) {
     } catch (error) {
       console.error("Error appending message to chatbox:", error);
     }
-    
   } catch (error) {
     console.error("General error in appendMessage:", error);
   }
