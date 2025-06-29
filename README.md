@@ -99,6 +99,7 @@ We used CC-licensed resources from Openverse, https://feathericons.com/, and htt
 
 Placed #2 at FBLA DLC for Coding and Programming.
 Placed #2 at FBLA SLC for Coding and Programming.
+Competed at FBLA NLC.
 
 ## Contact
 
