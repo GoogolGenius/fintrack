@@ -1251,7 +1251,7 @@ if (openGoalModalBtn && goalDialog && goalForm) {
     });
 }
 
-const apiKey = "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";
+const apiKey = "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";
 
 //Set FinBot's tone and give it rules.
 const systemMessage = {
