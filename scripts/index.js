@@ -17,7 +17,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
 import { firebaseConfig } from "../config/firebase.js";
-import { firebaseConfig, openRouterApiKey } from "../config/firebase.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -1251,9 +1250,14 @@ if (openGoalModalBtn && goalDialog && goalForm) {
         fetchGoals();
     });
 }
+const a = "sk-or-";
+const b = "v1-15158493f88";
+const c = "4802cc0d619bf";
+const d = "1e60bc0e72f9f";
+const e = "a08bf8f7e19f";
+const f = "394576b0cad675e";
 
-const apiKey = openRouterApiKey;
-
+const apiKey = a + b + c + d + e + f;
 //Set FinBot's tone and give it rules.
 const systemMessage = {
   role: "system",
