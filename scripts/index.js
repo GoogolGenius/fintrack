@@ -16,7 +16,6 @@ import {
     update,
 } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
-import { firebaseConfig } from "../config/firebase.js";
 import { firebaseConfig, openRouterApiKey } from "../config/firebase.js";
 
 const app = initializeApp(firebaseConfig);
