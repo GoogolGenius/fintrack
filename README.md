@@ -12,7 +12,7 @@ A financial web application built using HTML, CSS, JavaScript, React, and Fireba
 - **Responsive Design**: Mobile-friendly design that works seamlessly on any device.
 - **Easy Summarization**: Easily view numerical summarizations via the dashboard.
 - **Interactive Tour**: Get guided through the application using **Intro.js**, making it easy for new users to get started.
-- **FinBot – AI Assistant**: Powered by **DeepSeek R1** through **OpenRouter**, FinBot helps answer questions about your finances and usage within the app.
+- **FinBot – AI Assistant**: Powered by **Gemini Gemma 3** through **OpenRouter**, FinBot helps answer questions about your finances and usage within the app.
 
 ## Technology Used
 
@@ -24,7 +24,7 @@ A financial web application built using HTML, CSS, JavaScript, React, and Fireba
   - **Firebase Realtime Database**: For storing and managing user transaction data.
 - **Chart.js**: A JavaScript library used to create beautiful and responsive charts for data visualization.
 - **Intro.js**: A JavaScript library that provides step-by-step interactive product tours.
-- **OpenRouter + DeepSeek R1**: Used to power FinBot, the AI assistant integrated into the app for dynamic support and guidance.
+- **OpenRouter + Gemini Gemma 3 is used to power FinBot, the AI assistant integrated into the app for dynamic support and guidance.
 
 ## Getting Started
 
