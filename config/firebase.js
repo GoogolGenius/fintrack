@@ -9,3 +9,5 @@ export const firebaseConfig = {
     appId: "1:70485761645:web:1d5d363162a5d30aef6964",
     measurementId: "G-TEWC613JL4",
 };
+
+export const openRouterApiKey = "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";
