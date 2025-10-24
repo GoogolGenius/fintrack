@@ -1251,7 +1251,7 @@ if (openGoalModalBtn && goalDialog && goalForm) {
     });
 }
 
-const apiKey = "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";
+const apiKey = "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";
 
 //Set FinBot's tone and give it rules.
 const systemMessage = {
@@ -1543,7 +1543,6 @@ async function sendMessage() {
   messages.push({ role: "user", content: userMessage });
 
   try {
-    //Send request to Deepseek R1 model through OpenRouter API.
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -1553,7 +1552,7 @@ async function sendMessage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "deepseek/deepseek-r1-0528:free",
+        model: "google/gemma-3-27b-it:free",
         messages: messages,
       }),
     });
