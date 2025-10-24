@@ -1,0 +1,12 @@
+{
+  "name": "fbla-coding-programming-24-25",
+  "version": "1.0.0",
+  "description": "A financial web application built using HTML, CSS, JavaScript, React, and Firebase for the FBLA Coding & Programming event. Developed by Abhay S., Erich N., and Richard W. from Linn-Mar High School.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
