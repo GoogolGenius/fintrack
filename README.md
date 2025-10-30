@@ -12,7 +12,7 @@ A financial web application built using HTML, CSS, JavaScript, React, and Fireba
 - **Responsive Design**: Mobile-friendly design that works seamlessly on any device.
 - **Easy Summarization**: Easily view numerical summarizations via the dashboard.
 - **Interactive Tour**: Get guided through the application using **Intro.js**, making it easy for new users to get started.
-- **FinBot – AI Assistant**: Powered by **Gemini Gemma 3** through **OpenRouter**, FinBot helps answer questions about your finances and usage within the app.
+- **FinBot – AI Assistant**: Powered by **Google Gemma 3** through **OpenRouter**, FinBot helps answer questions about your finances and usage within the app.
 
 ## Technology Used
 
@@ -24,76 +24,7 @@ A financial web application built using HTML, CSS, JavaScript, React, and Fireba
   - **Firebase Realtime Database**: For storing and managing user transaction data.
 - **Chart.js**: A JavaScript library used to create beautiful and responsive charts for data visualization.
 - **Intro.js**: A JavaScript library that provides step-by-step interactive product tours.
-- **OpenRouter + Gemini Gemma 3 is used to power FinBot, the AI assistant integrated into the app for dynamic support and guidance.
-
-## Getting Started
-
-### Prerequisites
-
-To get started with this project, you need to have the following installed:
-
-- Node.js
-- npm (Node Package Manager)
-- git
-
-### Installation
-
-Clone the repository:
-
-```sh
-git clone https://github.com/GoogolGenius/FBLA-Coding-Programming-24-25.git
-cd FBLA-Coding-Programming-24-25
-
-
-Install the dependencies:
-
-```sh
-npm install
-```
-
-### Running the Application
-
-Start the development server:
-
-```sh
-npm start
-```
-
-Open your browser and navigate to `http://localhost:3000` to see the application in action.
-
-## Usage
-
-- Create an account to start managing your financial transactions.
-- Use the dashboard to view and visualize your transaction history.
-- Explore different charts and summaries to gain insights into your financial data.
-- Launch the interactive tour for an easy walkthrough of all features.
-
-## Contributing
-
-Contributions are welcome! Please follow these steps to contribute:
-
-1. Fork the repository.
-2. Create a new branch:
-   ```sh
-   git checkout -b feature/YourFeature
-   ```
-3. Commit your changes:
-   ```sh
-   git commit -m 'Add some feature'
-   ```
-4. Push to the branch:
-   ```sh
-   git push origin feature/YourFeature
-   ```
-5. Open a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Credits
-
-We used CC-licensed resources from Openverse, https://feathericons.com/, and https://cssgradient.io/.
+- **OpenRouter + Google Gemma 3** is used to power FinBot, the AI assistant integrated into the app for dynamic support and guidance.
 
 ## Awards
 
