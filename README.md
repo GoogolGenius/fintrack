@@ -1,6 +1,6 @@
 # FinTrack
 
-A financial web application built using HTML, CSS, JavaScript, React, and Firebase for the FBLA Coding & Programming event. Developed by Abhay S., Erich N., and Richard W. from Linn-Mar High School.
+A financial web application built using HTML, CSS, JavaScript, and Firebase for the FBLA Coding & Programming event. Developed by Abhay S., Erich N., and Richard W. from Linn-Mar High School.
 
 ## Features
 
